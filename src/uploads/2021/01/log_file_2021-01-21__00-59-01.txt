@@ -1,0 +1,161 @@
+
+---Downloaded files---
+The import files for: Chromium Demo (Supermarket) were successfully downloaded!
+Initial max execution time = 30
+Files info:
+Site URL = http://localhost
+Data file = /var/www/html/wp-content/themes/chromium/dummy-data/demo3/chromium-content.xml
+Widget file = /var/www/html/wp-content/themes/chromium/dummy-data/demo3/chromium-widgets.wie
+Customizer file = /var/www/html/wp-content/themes/chromium/dummy-data/demo3/chromium-customizer.dat
+Redux files:
+not defined!
+
+---pt-ocdi/before_content_import---
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+[ERROR] Failed to import "woocommerce-placeholder" (Medios)
+[ERROR] Failed to import "woocommerce-placeholder" (Medios)
+
+
+---pt-ocdi/before_widgets_import---
+
+
+---Importing widgets---
+Blog Sidebar : 
+
+Buscar - No Title - Widget already exists
+TZ Categories - Categories - Imported
+TZ Recent Posts - Recent Posts - Imported
+Comentarios recientes - No Title - Widget already exists
+TZ Most Viewed Posts - Most Viewed Posts - Imported
+Archivos - No Title - Imported
+Calendario - Calendar - Imported
+TZ Social Icons - Socials - Imported
+
+Header (Logo group) sidebar : 
+
+AJAX Search bar - No Title - Imported
+HTML personalizado - No Title - Imported
+
+Front Page Sidebar : 
+
+TZ Categories - Categories - Imported
+Galería - Brands - Imported
+Productos - Hot Offers - Imported
+HTML personalizado - No Title - Imported
+TZ Hot Offers - Deal of the day - Imported
+TZ Output Shortcode - Testimonials - Imported
+
+Shop Page Sidebar : 
+
+TZ Categories - Categories - Imported
+Filtros de productos activos - Active Filters - Imported
+Filtrar productos por precio - Price - Imported
+Filtrar productos por atributo - Department - Imported
+Filtrar productos por atributo - Car Type - Imported
+Filtrar productos por atributo - Brand - Imported
+
+Single Product Page Sidebar : 
+
+Productos vistos recientemente - Recently Viewed Products - Imported
+TZ Categories - Product Categories - Imported
+TZ Hot Offers - On Sale Now - Imported
+Productos - Recent Products - Imported
+
+Cart Page Sidebar : 
+
+Productos - Recent Products - Imported
+Productos - On-Sale Products - Imported
+
+Footer Sidebar (1 Col) : 
+
+TZ Contacts - No Title - Imported
+TZ Social Icons - Join Us: - Imported
+
+Footer Sidebar (2 Col) : 
+
+Meta - INFORMATION - Imported
+
+Footer Sidebar (3 Col) : 
+
+Páginas - WHY BUY FROM US - Imported
+
+Footer Sidebar (4 Col) : 
+
+mailchimpsf_widget - No Title - Site does not support widget
+TZ Payment Icons - We Accept: - Imported
+
+Header Top Panel Left Sidebar : 
+
+Texto - No Title - Imported
+Texto - No Title - Imported
+Texto - No Title - Imported
+
+Header Top Panel Right Sidebar : 
+
+woocs_selector - Currency:  - Site does not support widget
+TZ Login/Register - No Title - Imported
+
+Primary navigation widgets : 
+
+tm_woocommerce_wishlist - No Title - Site does not support widget
+TZ Cart for Woocommerce - No Title - Imported
+
+Widgets de Max Mega Menu : 
+
+TZ Output Shortcode - No Title - Imported
+TZ Cart for Woocommerce - No Title - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---pt-ocdi/after_import---
+

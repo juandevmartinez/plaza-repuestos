@@ -1,0 +1,111 @@
+
+---Downloaded files---
+The import files for: Chromium Demo (Supermarket) were successfully downloaded!
+Initial max execution time = 30
+Files info:
+Site URL = http://localhost
+Data file = /var/www/html/wp-content/themes/chromium/dummy-data/demo3/chromium-content.xml
+Widget file = /var/www/html/wp-content/themes/chromium/dummy-data/demo3/chromium-widgets.wie
+Customizer file = /var/www/html/wp-content/themes/chromium/dummy-data/demo3/chromium-customizer.dat
+Redux files:
+not defined!
+
+---pt-ocdi/before_content_import---
+
+
+---pt-ocdi/before_widgets_import---
+
+
+---Importing widgets---
+Blog Sidebar : 
+
+Buscar - No Title - Widget already exists
+TZ Categories - Categories - Widget already exists
+TZ Recent Posts - Recent Posts - Widget already exists
+Comentarios recientes - No Title - Widget already exists
+TZ Most Viewed Posts - Most Viewed Posts - Widget already exists
+Archivos - No Title - Widget already exists
+Calendario - Calendar - Widget already exists
+TZ Social Icons - Socials - Widget already exists
+
+Header (Logo group) sidebar : 
+
+AJAX Search bar - No Title - Widget already exists
+HTML personalizado - No Title - Widget already exists
+
+Front Page Sidebar : 
+
+TZ Categories - Categories - Widget already exists
+Galería - Brands - Widget already exists
+Productos - Hot Offers - Widget already exists
+HTML personalizado - No Title - Widget already exists
+TZ Hot Offers - Deal of the day - Widget already exists
+TZ Output Shortcode - Testimonials - Widget already exists
+
+Shop Page Sidebar : 
+
+TZ Categories - Categories - Widget already exists
+Filtros de productos activos - Active Filters - Widget already exists
+Filtrar productos por precio - Price - Widget already exists
+Filtrar productos por atributo - Department - Widget already exists
+Filtrar productos por atributo - Car Type - Widget already exists
+Filtrar productos por atributo - Brand - Widget already exists
+
+Single Product Page Sidebar : 
+
+Productos vistos recientemente - Recently Viewed Products - Widget already exists
+TZ Categories - Product Categories - Widget already exists
+TZ Hot Offers - On Sale Now - Widget already exists
+Productos - Recent Products - Widget already exists
+
+Cart Page Sidebar : 
+
+Productos - Recent Products - Widget already exists
+Productos - On-Sale Products - Widget already exists
+
+Footer Sidebar (1 Col) : 
+
+TZ Contacts - No Title - Widget already exists
+TZ Social Icons - Join Us: - Widget already exists
+
+Footer Sidebar (2 Col) : 
+
+Meta - INFORMATION - Widget already exists
+
+Footer Sidebar (3 Col) : 
+
+Páginas - WHY BUY FROM US - Widget already exists
+
+Footer Sidebar (4 Col) : 
+
+mailchimpsf_widget - No Title - Site does not support widget
+TZ Payment Icons - We Accept: - Widget already exists
+
+Header Top Panel Left Sidebar : 
+
+Texto - No Title - Widget already exists
+Texto - No Title - Widget already exists
+Texto - No Title - Widget already exists
+
+Header Top Panel Right Sidebar : 
+
+woocs_selector - Currency:  - Site does not support widget
+TZ Login/Register - No Title - Widget already exists
+
+Primary navigation widgets : 
+
+tm_woocommerce_wishlist - No Title - Site does not support widget
+TZ Cart for Woocommerce - No Title - Widget already exists
+
+Widgets de Max Mega Menu : 
+
+TZ Output Shortcode - No Title - Widget already exists
+TZ Cart for Woocommerce - No Title - Widget already exists
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---pt-ocdi/after_import---
+
