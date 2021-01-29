@@ -1,0 +1,22 @@
+
+---Downloaded files---
+The import files for: Chromium Demo (Marketplace) were successfully downloaded!
+Initial max execution time = 300
+Files info:
+Site URL = http://ronvas234-001-site3.itempurl.com
+Data file = H:\root\home\ronvas234-001\www\plaza-staging/wp-content/themes/chromium/dummy-data/demo2/chromium-content.xml
+Widget file = H:\root\home\ronvas234-001\www\plaza-staging/wp-content/themes/chromium/dummy-data/demo2/chromium-widgets.wie
+Customizer file = H:\root\home\ronvas234-001\www\plaza-staging/wp-content/themes/chromium/dummy-data/demo2/chromium-customizer.dat
+Redux files:
+not defined!
+
+---pt-ocdi/before_content_import---
+
+
+------
+New AJAX call!
+
+
+------
+New AJAX call!
+

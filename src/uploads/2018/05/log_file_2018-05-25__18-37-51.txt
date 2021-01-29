@@ -1,0 +1,88 @@
+
+---Downloaded files---
+The import files for: Chromium Demo (Marketplace) were successfully downloaded!
+Initial max execution time = 60
+Files info:
+Site URL = http://chromium.themes.zone/simple
+Data file = /srv/demo/chromium/wp-content/themes/chromium/dummy-data/demo2/chromium-content.xml
+Widget file = /srv/demo/chromium/wp-content/themes/chromium/dummy-data/demo2/chromium-widgets.wie
+Customizer file = /srv/demo/chromium/wp-content/themes/chromium/dummy-data/demo2/chromium-customizer.dat
+Redux files:
+not defined!
+
+---Importing widgets---
+Blog Sidebar : 
+
+Search - No Title - Widget already exists
+Recent Posts - No Title - Widget already exists
+Recent Comments - No Title - Widget already exists
+Archives - No Title - Widget already exists
+Categories - No Title - Widget already exists
+Meta - No Title - Widget already exists
+Categories - Categories - Imported
+TZ Most Viewed Posts - Most Viewed Posts - Imported
+Recent Comments - Recent Comments - Imported
+Archives - Archives - Imported
+TZ Recent Posts - Recent Posts - Imported
+Calendar - Calendar - Imported
+TZ Social Icons - Socials - Imported
+Archives - Archives Dropdown - Imported
+
+Header (Logo group) sidebar : 
+
+TM WooCommerce Wishlist - No Title - Imported
+TZ Cart for Woocommerce - Shopping Cart - Imported
+
+Shop Page Sidebar : 
+
+TZ Categories - Categories - Imported
+Active Product Filters - Active Filters - Imported
+Filter Products by Price - Price - Imported
+Filter Products by Attribute - Department - Imported
+Filter Products by Attribute - Car Type - Imported
+Filter Products by Attribute - Brand - Imported
+
+Single Product Page Sidebar : 
+
+Products - Recent Products - Imported
+Product Tag Cloud - Product tags - Imported
+
+Footer Sidebar (1 Col) : 
+
+TZ Contacts - No Title - Imported
+TZ Social Icons - Join Us: - Imported
+
+Footer Sidebar (2 Col) : 
+
+Meta - INFORMATION - Imported
+
+Footer Sidebar (3 Col) : 
+
+Pages - WHY BUY FROM US - Imported
+
+Footer Sidebar (4 Col) : 
+
+TZ Payment Icons - We Accept: - Imported
+
+Header Top Panel Left Sidebar : 
+
+Text - No Title - Imported
+Text - No Title - Imported
+Text - No Title - Imported
+
+Header Top Panel Right Sidebar : 
+
+WooCommerce Currency Switcher - Currency:  - Imported
+TZ Login/Register - No Title - Imported
+
+Max Mega Menu Widgets : 
+
+TZ Output Shortcode - No Title - Imported
+
+
+
+---Importing customizer settings---
+Customizer settings import finished!
+
+---pt-ocdi/after_import---
+
