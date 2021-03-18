@@ -5,10 +5,6 @@
  * Add your own functions at the bottom of this file.
  */
 
-
-/****************************** THEME SETUP ******************************/
-
-
 /**
  * Enqueues scripts and styles for child theme front-end.
  *
@@ -26,43 +22,14 @@
  }
  add_action('wp_enqueue_scripts', 'chromium_child_enqueue');
 
- function add_meta_user_registration( $user_id ){
-    $user = get_userdata ( $user_id );
-    // Update the registration meta data
-    update_user_meta ( $user_id, 'registration_date', $user->user_registered );
- }
- add_action('user_register', 'add_meta_user_registration' , 10, 1);
-
- function get_approved_date( $user_id ){
-   return get_user_meta( $user_id, 'approved_date', true );
- };
-
- function update_meta_on_change( $user_id, $role, $old_roles ){
-
-   switch( $role ){
-      case 'dc_vendor':
-         register_approved_date( $user_id );
-         break;  
-   }
-
- }
- add_action( 'set_user_role', 'update_meta_on_change', 10, 3 );
+ /**
+  * Calling custom logic
+  */
+  require_once( __DIR__ . '/include/vendor-managment/vendor-display.php' );
+  require_once( __DIR__ . '/include/vendor-managment/registration-management.php' );
+  require_once( __DIR__ . '/include/woocommerce/custom-functions.php' );
+  require_once( __DIR__ . '/include/vendor-managment/check-vendor-status.php' );
 
  function var_view( $data ){
     echo '<pre>' . var_dump( $data ) . '</pre>';
- }
-
- function register_approved_date( $user_id ){
-      $date = strtotime("now");
-      return update_user_meta( $user_id, 'approved_date', $date  );
- }
-
-
- /**
-  * Remove External Products 
-  */
- add_filter( 'product_type_selector', 'remove_product_types' );
- function remove_product_types( $types ){
-   unset( $types['external'] );
-   return $types;
  }
