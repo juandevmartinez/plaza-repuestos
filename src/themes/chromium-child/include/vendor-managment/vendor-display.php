@@ -11,6 +11,7 @@ function date_of_rent( $columns ){
       'registered' => __( 'Registered', 'dc-woocommerce-multi-vendor' ),
       'products' => __( 'Products', 'dc-woocommerce-multi-vendor' ),
       'status' => __( 'Status', 'dc-woocommerce-multi-vendor' ),
+      'active_rent' => __( 'Fecha Activa', 'dc-woocommerce-multi-vendor' ),
       'rent' => __( 'Fecha de Cobro', 'dc-woocommerce-multi-vendor' ),
   ];
   return $columns;
@@ -25,6 +26,7 @@ function vendor_data($user){
                     'ID' => $user['ID'],
                     'name' => $user['name'],
                     'rent'=> get_payment_date($user['ID']),
+                    'active_rent'=> get_approved_date($user['ID']),
                     'email' => $user['email'],
                     'registered' => get_date_from_gmt( $user['registered'], 'd-m-Y' ),
                     'products' => $user['products'],
