@@ -29,6 +29,7 @@
   require_once( __DIR__ . '/include/vendor-managment/registration-management.php' );
   require_once( __DIR__ . '/include/woocommerce/custom-functions.php' );
   require_once( __DIR__ . '/include/vendor-managment/check-vendor-status.php' );
+  require_once(__DIR__ . '/include/woocommerce/include/custom-tab-woocommerce.php');
 
  function var_view( $data ){
     echo '<pre>' . var_dump( $data ) . '</pre>';

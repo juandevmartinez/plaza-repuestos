@@ -48,15 +48,45 @@ function get_approved_date( $user_id ){
 /**
  * Get Payment Date
  * @param string Date String
- * @return string Date Formatted with 1+ month as the payment
+ * @return string Date Formatted 
  */
 function get_payment_date( $user_id ){
     $approved_date = get_approved_date( $user_id );
+    $time = get_user_meta( $user_id, 'payment_date_period', true);
 
     //Exit the function if empty
     if( empty($approved_date) )
         return;
 
-    $payment_date = date("d-m-Y", strtotime( "+1 month", strtotime($approved_date) )); 
+    $payment_date = date("d-m-Y", strtotime( $time, strtotime($approved_date) )); 
     return $payment_date;
-} 
+}
+
+/**
+ * Update rent payment as a subscription
+ * @param order_id ID of the Woocommerce Order
+ * @return bool
+ */
+function update_payment_date_by_subscription( $order_id ){
+    // get order object and items
+    $order = wc_get_order( $order_id );
+    $items = $order->get_items();
+
+    // Products to check in order 
+    $products_to_check = array( '4058', '4060' );
+
+    foreach ( $items as $item ) {
+        if ( $order->user_id > 0 && in_array( $item['product_id'], $products_to_check ) ) {
+            $user = new WP_User( $order->user_id );
+
+            // Set Role and remove old one
+            $user->set_role( 'dc_vendor' );
+            update_user_meta( $user->ID, 'payment_date_period', get_post_meta( $item['product_id'], 'rent_period', true ));
+           if( get_user_meta( $user->ID, '_vendor_turn_off', true ) ){
+               delete_user_meta( $user->ID, 'vendor_turn_off');
+           }
+             
+        }
+    }
+}
+add_action( 'woocommerce_order_status_completed', 'update_payment_date_by_subscription' );
