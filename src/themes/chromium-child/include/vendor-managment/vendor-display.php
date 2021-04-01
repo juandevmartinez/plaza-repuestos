@@ -36,3 +36,11 @@ function vendor_data($user){
                     );                
     return $user;
 }
+
+/**
+ * Get store name
+ */
+function get_vendor_store_name( $user_id ){
+    $name = get_user_meta( $user_id, '_vendor_page_title', true );
+    return $name;
+}

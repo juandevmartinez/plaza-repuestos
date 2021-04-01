@@ -25,17 +25,25 @@
     $user_data = get_userdata( $user_id );
     $user = new WP_USer( $user_id );
     $roles = $user_data->roles;
-    $is_vendor = is_user_wcmp_vendor( $user_object );
+    $is_vendor = is_user_wcmp_vendor( $user );
     $pending_vendor_role = 'dc_pending_vendor';
 
     if ( $status === 'expired' && $is_vendor ){
-        $user_object->set_role( $pending_vendor_role );
+        suspend_vendor( $user_id );
         return true;
     }
 
     return false;
  }
-
+/**
+ * @param user_id ID of the current user
+ * @return bool
+ */
+ function is_vendor_due_of_rent( $user_id ){
+  $status = get_current_status( $user_id ) === 'expired' ? true : false;
+  return $status;
+ }
+ 
  /**
   * Suspend vendor
   */
@@ -45,3 +53,11 @@
         update_user_meta($user_id, '_vendor_turn_off', 'Enable');
     }
   }
+
+  /**
+   * Check current user status
+   */
+  function check_current_vendor_status( $user ){
+    change_role_for_expired_users( get_current_user_id() );
+  }
+  add_action( 'init', 'check_current_vendor_status' );

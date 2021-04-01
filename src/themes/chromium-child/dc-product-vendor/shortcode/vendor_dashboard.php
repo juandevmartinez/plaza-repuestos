@@ -40,7 +40,13 @@ $is_single = !is_null($WCMp->endpoints->get_current_endpoint_var()) ? '-single' 
 				?>
 				<div class="col-md-12 text-center">
 					<div class="panel wcmp-suspended-vendor-notice content-padding">
-					    <?php echo apply_filters( 'wcmp_suspended_vendor_dashboard_message', sprintf( __('Tu cuenta ha sido susponedida por el administrador. Por favor, <a href="mailto:%s">contáctanos</a> para más información.', 'dc-woocommerce-multi-vendor'), get_option('admin_email')) ); ?>
+                        <?php 
+                            if(is_vendor_due_of_rent( get_current_user_id() )){
+                                echo do_shortcode('[rent_form]');
+                            } else{
+                                echo apply_filters( 'wcmp_suspended_vendor_dashboard_message', sprintf( __('Tu cuenta ha sido susponedida por el administrador. Por favor, <a href="mailto:%s">contáctanos</a> para más información.', 'dc-woocommerce-multi-vendor'), get_option('admin_email')) ); 
+                            }
+                        ?>
 					</div>
 				</div>
 			<?php } else {
