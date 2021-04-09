@@ -67,6 +67,7 @@
   require_once(__DIR__ . '/include/woocommerce/include/custom-tab-woocommerce.php');
   require_once(__DIR__ . '/include/woocommerce/shortcodes/rent_form.php');
   require_once(__DIR__ . '/shortcodes/woocommerce/vendors.php');
+  require_once(__DIR__ . '/shortcodes/woocommerce/widget_vendors.php');
 
  function var_view( $data ){
     echo '<pre>' . var_dump( $data ) . '</pre>';
