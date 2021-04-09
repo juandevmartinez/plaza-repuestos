@@ -1,0 +1,21 @@
+.container-vendors {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+.vendors-slider-wrapper {
+    display: block;
+    width: 100%;
+}
+
+.hide {
+    display: none;
+    opacity: 0%;
+}
+
+.vendors-slider {
+    opacity: 100%;
+    transition: all 0.2 ease-in-out;
+}

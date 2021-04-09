@@ -20,6 +20,11 @@
     wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
     wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( $parent_style ), wp_get_theme()->get('Version'));
 
+    //Custom css
+    wp_enqueue_style( 'custom-styles', get_stylesheet_directory_uri() . '/dist/css/style.css') ;
+    //Custom JS
+    wp_enqueue_script( 'global-custom', get_stylesheet_directory_uri() . '/dist/js/global.js', array('jquery') );
+
  }
  add_action('wp_enqueue_scripts', 'chromium_child_enqueue');
 
@@ -61,6 +66,7 @@
   require_once( __DIR__ . '/include/vendor-managment/check-vendor-status.php' );
   require_once(__DIR__ . '/include/woocommerce/include/custom-tab-woocommerce.php');
   require_once(__DIR__ . '/include/woocommerce/shortcodes/rent_form.php');
+  require_once(__DIR__ . '/shortcodes/woocommerce/vendors.php');
 
  function var_view( $data ){
     echo '<pre>' . var_dump( $data ) . '</pre>';
