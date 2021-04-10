@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Check Vendor status for rent payment
  */
@@ -58,6 +58,8 @@
    * Check current user status
    */
   function check_current_vendor_status( $user ){
-    change_role_for_expired_users( get_current_user_id() );
+    if( is_user_logged_in() ){
+      change_role_for_expired_users( get_current_user_id() );
+    } 
   }
-  add_action( 'init', 'check_current_vendor_status' );
+  add_action( 'wp_loaded', 'check_current_vendor_status' );

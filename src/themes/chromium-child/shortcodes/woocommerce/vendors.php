@@ -16,7 +16,7 @@ function shops_slider_connection(){
         <div class="container-vendors">
             <div class="vendors">
                 <div class="vendors-slider flex-container hide" data-slide-vendors="1">
-                    <div class="product type-product post-4017 status-publish first instock product_cat-locales has-post-thumbnail shipping-taxable product-type-simple">
+                    <div class="product type-product">
                         <div class="inner-wrapper">
                             <div class="img-wrapper">
                                 <a href="http://localhost/product/repuesto-motor-mushida/" class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="210" height="210" src="http://localhost/wp-content/uploads/2021/01/fachadaboceto3-1.jpg" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" loading="lazy" srcset="http://localhost/wp-content/uploads/2021/01/fachadaboceto3-1.jpg 210w, http://localhost/wp-content/uploads/2021/01/fachadaboceto3-1-150x150.jpg 150w, http://localhost/wp-content/uploads/2021/01/fachadaboceto3-1-100x100.jpg 100w, http://localhost/wp-content/uploads/2021/01/fachadaboceto3-1-64x64.jpg 64w" sizes="(max-width: 210px) 100vw, 210px"></a>
