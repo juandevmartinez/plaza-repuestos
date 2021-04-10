@@ -19,3 +19,22 @@
     opacity: 100%;
     transition: all 0.2 ease-in-out;
 }
+
+.elementor-shortcode{
+    .vendor-profile-tab-image {
+        width: 250px !important;
+        height: 250px !important;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .vendor-inner-wrapper {
+        min-height: 400px !important;
+    }
+
+    .type-vendor-slide {
+        @media (max-width: 425px){
+            max-width: 100% !important;
+        }
+    }
+}
