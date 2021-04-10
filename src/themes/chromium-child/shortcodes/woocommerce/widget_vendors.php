@@ -21,7 +21,7 @@ function widget_vendors_slider(){
         </div>
     </div>
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active row" data-owl="container" data-owl-margin="30" data-owl-slides="3" data-owl-loop="true" data-owl-col-mobile="1" data-owl-slide-by="1">
+        <div role="tabpanel" class="tab-pane fade in active row tab-pane-vendors" data-owl="container" data-owl-margin="30" data-owl-slides="3" data-owl-loop="true" data-owl-col-mobile="1" data-owl-slide-by="1">
             <span class="carousel-loader"></span>
             <div class="slider-navi"><span class="prev"></span><span class="next"></span></div>
             <div class="woocommerce columns-3">
