@@ -68,25 +68,10 @@
   require_once(__DIR__ . '/include/woocommerce/shortcodes/rent_form.php');
   require_once(__DIR__ . '/shortcodes/woocommerce/vendors.php');
   require_once(__DIR__ . '/shortcodes/woocommerce/widget_vendors.php');
-
+  require_once(__DIR__ . '/include/custom-dashboard.php');
+  
  function var_view( $data ){
     echo '<pre>' . var_dump( $data ) . '</pre>';
  }
  
- function pretty ($var) {
-   return gettype($var) . ' ' . json_encode(
-     $var,
-     JSON_UNESCAPED_SLASHES | 
-     JSON_UNESCAPED_UNICODE | 
-     JSON_PRETTY_PRINT | 
-     JSON_PARTIAL_OUTPUT_ON_ERROR | 
-     JSON_INVALID_UTF8_SUBSTITUTE 
-    ); 
-  }
-  
-   function debug( $var = null){
-      if( $var == null ){
-        return;
-      }
-   }
-   add_action('init', 'debug');
+ 
