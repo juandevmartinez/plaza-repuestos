@@ -18,8 +18,7 @@ function remove_menus(){
         'edit.php?post_type=elementor_library&tabs_group=library', 
         'wp-mail-catcher', 
         'maxmegamenu', 
-        'dgwt_wcas_settings',
-        'plugins.php'
+        'dgwt_wcas_settings'
     );
     foreach ( $menus as $menu ){
         remove_menu_page( $menu );
