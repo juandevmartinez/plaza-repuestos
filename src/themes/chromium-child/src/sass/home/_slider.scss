@@ -18,6 +18,22 @@
 .vendors-slider {
     opacity: 100%;
     transition: all 0.2 ease-in-out;
+
+    .address{
+        font-size: 0.765em;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: #a9a9a9;
+        max-height: 20px;
+    }
+
+    .img-wrapper {
+        img {
+            width: 100%;
+            max-height: 186px;
+            object-fit: cover;
+        }
+    } 
 }
 
 .elementor-shortcode{

@@ -56,11 +56,21 @@
  }
  add_action('admin_init', 'plaza_admin_color_scheme');
  
+ /**
+  * Enqueing select2 for admin page
+  */
+  function add_select2_to_admin(){
+    wp_enqueue_style('select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
+    wp_enqueue_script('select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array( 'jquery' ));
+    wp_enqueue_script('vendors_select2', get_stylesheet_directory_uri() . '/dist/js/select2-vendors.js', array( 'jquery' , 'select2' ));
+  }
+  add_action('admin_enqueue_scripts', 'add_select2_to_admin' );
 
  /**
   * Calling custom logic
   */
   require_once( __DIR__ . '/include/vendor-managment/vendor-display.php' );
+  require_once(__DIR__ . '/include/custom-slider-options.php');
   require_once( __DIR__ . '/include/vendor-managment/registration-management.php' );
   require_once( __DIR__ . '/include/woocommerce/custom-functions.php' );
   require_once( __DIR__ . '/include/vendor-managment/check-vendor-status.php' );
@@ -72,6 +82,15 @@
   
  function var_view( $data ){
     echo '<pre>' . var_dump( $data ) . '</pre>';
+ }
+
+ function get_vendors_for_slider(){
+   $slides = get_slides_from_slider();
+   $ids = [];
+   foreach( $slides as $index => $slide ){
+      $ids[] = get_option( 'vendor_slider_' . $index );
+   }
+   return $ids;
  }
  
  
