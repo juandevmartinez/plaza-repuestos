@@ -2,8 +2,10 @@
 
 namespace DgoraWcas\Admin;
 
+use  DgoraWcas\Admin\Promo\Upgrade ;
 use  DgoraWcas\Helpers ;
 use  DgoraWcas\Engines\TNTSearchMySQL\Indexer\Builder ;
+use  DgoraWcas\Multilingual ;
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) {
     exit;
@@ -58,7 +60,7 @@ class Troubleshooting
     {
         $sections[35] = array(
             'id'    => self::SECTION_ID,
-            'title' => __( 'Troubleshooting', 'ajax-search-for-woocommerce' ) . '<span class="js-dgwt-wcas-troubleshooting-count dgwt-wcas-troubleshooting-count"></span>',
+            'title' => __( 'Troubleshooting', 'ajax-search-for-woocommerce' ) . '<span class="js-dgwt-wcas-troubleshooting-count dgwt-wcas-tab-mark"></span>',
         );
         return $sections;
     }
@@ -68,8 +70,11 @@ class Troubleshooting
      */
     public function asyncTest()
     {
+        if ( !current_user_can( 'administrator' ) ) {
+            wp_die( -1, 403 );
+        }
         check_ajax_referer( self::ASYNC_TEST_NONCE );
-        $test = ( isset( $_POST['test'] ) ? $_POST['test'] : '' );
+        $test = ( isset( $_POST['test'] ) ? wc_clean( wp_unslash( $_POST['test'] ) ) : '' );
         if ( !$this->isTestExists( $test ) ) {
             wp_send_json_error();
         }
@@ -88,6 +93,9 @@ class Troubleshooting
      */
     public function resetAsyncTests()
     {
+        if ( !current_user_can( 'administrator' ) ) {
+            wp_die( -1, 403 );
+        }
         check_ajax_referer( self::RESET_ASYNC_TESTS_NONCE );
         delete_transient( self::TRANSIENT_RESULTS_KEY );
         wp_send_json_success();
@@ -189,11 +197,11 @@ class Troubleshooting
         $errors = array();
         // GTranslate
         if ( class_exists( 'GTranslate' ) ) {
-            $errors[] = sprintf( __( 'You use the %s plugin. The Ajax Search for WooCommerce does not support this plugin.', 'ajax-search-for-woocommerce' ), 'GTranslate' );
+            $errors[] = sprintf( __( 'You use the %s plugin. The %s does not support this plugin.', 'ajax-search-for-woocommerce' ), 'GTranslate', DGWT_WCAS_NAME );
         }
         // WooCommerce Product Sort and Display
         if ( defined( 'WC_PSAD_VERSION' ) ) {
-            $errors[] = sprintf( __( 'You use the %s plugin. The Ajax Search for WooCommerce does not support this plugin.', 'ajax-search-for-woocommerce' ), 'WooCommerce Product Sort and Display' );
+            $errors[] = sprintf( __( 'You use the %s plugin. The %s does not support this plugin.', 'ajax-search-for-woocommerce' ), 'WooCommerce Product Sort and Display', DGWT_WCAS_NAME );
         }
         
         if ( !empty($errors) ) {
@@ -201,6 +209,28 @@ class Troubleshooting
             $result['status'] = 'critical';
         }
         
+        return $result;
+    }
+    
+    /**
+     * Test for incompatible plugins
+     *
+     * @return array The test result.
+     */
+    public function getTestTranslatePress()
+    {
+        $result = array(
+            'label'       => __( 'You are using TranslatePress with Free version of our plugin', 'ajax-search-for-woocommerce' ),
+            'status'      => 'good',
+            'description' => '',
+            'actions'     => '',
+            'test'        => 'TranslatePress',
+        );
+        if ( !defined( 'TRP_PLUGIN_VERSION' ) && !class_exists( 'TRP_Translate_Press' ) ) {
+            return $result;
+        }
+        $result['description'] = sprintf( __( 'Due to the way the TranslatePress - Multilingual plugin works, we can only provide support for it in the <a href="%s" target="_blank">Pro version</a>.', 'ajax-search-for-woocommerce' ), Upgrade::getUpgradeUrl() );
+        $result['status'] = 'critical';
         return $result;
     }
     
@@ -244,17 +274,16 @@ class Troubleshooting
         
         if ( $markAsCritical ) {
             $result['status'] = 'critical';
+            $linkToDocs = 'https://fibosearch.com/documentation/troubleshooting/the-indexer-was-stuck/';
+            $linkToWpHealth = admin_url( 'site-health.php' );
             $result['label'] = __( 'Your site could not complete a loopback request', 'ajax-search-for-woocommerce' );
             if ( !dgoraAsfwFs()->is_premium() ) {
                 $result['description'] = __( 'This issue may affect the search results page and e.g. display all products every time', 'ajax-search-for-woocommerce' );
             }
             $result['description'] .= '<h3 class="dgwt-wcas-font-thin">' . __( 'Solutions:', 'ajax-search-for-woocommerce' ) . '</h3>';
-            $result['description'] .= '<h4>' . __( 'Do you have a Basic Auth?', 'ajax-search-for-woocommerce' ) . '</h4>';
-            $result['description'] .= '<p>' . __( 'If yes, you have to add to your <code>wp-config.php</code> file following constants. Remember to replace <code>your-username</code> and <code>your-password</code> with your values.', 'ajax-search-for-woocommerce' ) . '</p>';
-            $result['description'] .= '<pre style="margin-top: 10px">define(\'DGWT_WCAS_BA_USERNAME\', \'your-username\');';
-            $result['description'] .= '</br>define(\'DGWT_WCAS_BA_PASSWORD\', \'your-password\');</pre>';
-            $result['description'] .= '<h4 style="margin-top: 15px">' . __( 'Is your website publicly available only for whitelisted IPs?', 'ajax-search-for-woocommerce' ) . '</h4>';
-            $result['description'] .= '<p>' . __( 'If yes, add you server IP to whitelist IPs. That’s all.', 'ajax-search-for-woocommerce' ) . '</p>';
+            $result['description'] .= '<h4>' . __( "Your server can't send an HTTP request to itself", 'ajax-search-for-woocommerce' ) . '</h4>';
+            $result['description'] .= '<p>' . sprintf( __( 'Go to <a href="%s" target="_blank">Tools -> Site Health</a> in your WordPress. You should see issues related to REST API or Loopback request. Expand descriptions of these errors and follow the instructions. Probably you will need to contact your hosting provider to solve it.', 'ajax-search-for-woocommerce' ), $linkToWpHealth ) . '</p>';
+            $result['description'] .= '<p>' . __( 'Is your website publicly available only for whitelisted IPs? <b>Add your server IP to the whitelist</b>. That’s all. This is a common mistake when access is blocked by a <code>.htaccess</code> file. Developers add a list of allowed IPs, but they forget to add the IP of the server to allow make HTTP requests to itself.', 'ajax-search-for-woocommerce' ) . '</p>';
         }
         
         $this->storeResult( $result );
@@ -437,9 +466,34 @@ class Troubleshooting
         );
         if ( !dgoraAsfwFs()->is_premium() ) {
             // List of tests only for free plugin version
+            $tests['direct'][] = array(
+                'label' => __( 'TranslatePress', 'ajax-search-for-woocommerce' ),
+                'test'  => 'TranslatePress',
+            );
         }
         $tests = apply_filters( 'dgwt/wcas/troubleshooting/tests', $tests );
         return $tests;
+    }
+    
+    /**
+     * Check if WP-Cron has missed events
+     *
+     * @return bool
+     */
+    public static function hasWpCronMissedEvents()
+    {
+        if ( !self::checkRequirements() ) {
+            return false;
+        }
+        if ( !class_exists( 'WP_Site_Health' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
+        }
+        $siteHealth = \WP_Site_Health::get_instance();
+        $data = $siteHealth->get_test_scheduled_events();
+        if ( $data['status'] === 'critical' || $data['status'] === 'recommended' && $siteHealth->has_missed_cron() ) {
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -449,7 +503,7 @@ class Troubleshooting
      *
      * @return bool
      */
-    private function checkRequirements()
+    private static function checkRequirements()
     {
         global  $wp_version ;
         return version_compare( $wp_version, '5.4.0' ) >= 0;
@@ -486,6 +540,52 @@ class Troubleshooting
             }
         }
         return false;
+    }
+    
+    /**
+     * Get table with server environment
+     *
+     * @return string
+     */
+    private function getDebugData()
+    {
+        if ( !class_exists( 'WP_Debug_Data' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
+        }
+        $result = '';
+        $info = \WP_Debug_Data::debug_data();
+        
+        if ( isset( $info['wp-server']['fields'] ) ) {
+            ob_start();
+            ?>
+			<p><b><?php 
+            _e( 'Server environment', 'ajax-search-for-woocommerce' );
+            ?></b></p>
+			<table class="widefat striped" role="presentation">
+				<tbody>
+				<?php 
+            foreach ( $info['wp-server']['fields'] as $field_name => $field ) {
+                
+                if ( is_array( $field['value'] ) ) {
+                    $values = '<ul>';
+                    foreach ( $field['value'] as $name => $value ) {
+                        $values .= sprintf( '<li>%s: %s</li>', esc_html( $name ), esc_html( $value ) );
+                    }
+                    $values .= '</ul>';
+                } else {
+                    $values = esc_html( $field['value'] );
+                }
+                
+                printf( '<tr><td>%s</td><td>%s</td></tr>', esc_html( $field['label'] ), $values );
+            }
+            ?>
+				</tbody>
+			</table>
+			<?php 
+            $result = ob_get_clean();
+        }
+        
+        return $result;
     }
     
     /**

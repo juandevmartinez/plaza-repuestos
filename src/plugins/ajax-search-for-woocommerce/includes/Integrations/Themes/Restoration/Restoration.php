@@ -16,7 +16,7 @@ class Restoration {
 	private $themeName = 'Restoration';
 
 	public function __construct() {
-		
+
 		$this->maybeOverwriteSearch();
 
 		add_filter( 'dgwt/wcas/settings', array( $this, 'registerSettings' ) );
@@ -56,7 +56,7 @@ class Restoration {
 		$settings[ $key ][55] = array(
 			'name'    => $this->themeSlug . '_replace_search',
 			'label'   => __( 'Replace', 'ajax-search-for-woocommerce' ),
-			'desc'    => sprintf( __( 'Replace all %s search bars with the Ajax Search for WooCommerce.', 'ajax-search-for-woocommerce' ), $this->themeName ),
+			'desc'    => sprintf( __( 'Replace all %s search bars with the %s.', 'ajax-search-for-woocommerce' ), $this->themeName, DGWT_WCAS_NAME ),
 			'type'    => 'checkbox',
 			'default' => 'off',
 		);
@@ -72,8 +72,7 @@ class Restoration {
 	}
 
 	/**
-	 * Check if can replace the native search form
-	 * by the Ajax Search for WooCommerce form.
+	 * Check if can replace the native search form with the FiboSearch form.
 	 *
 	 * @return bool
 	 */
@@ -99,7 +98,7 @@ class Restoration {
 			add_filter( 'wc_get_template', function ( $template, $templateName ) {
 
 				if ( ! empty( $templateName ) && $templateName === 'product-searchform.php' ) {
-					$template = include DGWT_WCAS_DIR . 'partials/themes/restoration.php';
+					$template = DGWT_WCAS_DIR . 'partials/themes/restoration.php';
 				}
 
 				return $template;

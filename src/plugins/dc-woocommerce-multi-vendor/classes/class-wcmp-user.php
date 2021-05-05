@@ -137,7 +137,7 @@ class WCMp_User {
             if (isset($_POST['wcmp_vendor_fields']) && isset($_POST['pending_vendor']) && isset($_POST['vendor_apply'])) {
                 $customer_id = $user->ID;
                 $validation_errors = new WP_Error();
-                $wcmp_vendor_registration_form_data = get_option('wcmp_vendor_registration_form_data');
+                $wcmp_vendor_registration_form_data = wcmp_get_option('wcmp_vendor_registration_form_data');
                 if(isset($_POST['g-recaptchatype']) && $_POST['g-recaptchatype'] == 'v2'){
                     if (isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
                         $validation_errors->add('recaptcha is not validate', __('Please Verify  Recaptcha', 'dc-woocommerce-multi-vendor'));
@@ -182,7 +182,7 @@ class WCMp_User {
                 }
 
                 if ($validation_errors->get_error_code()) {
-                    WC()->session->set('wc_notices', array('error' => array($validation_errors->get_error_message())));
+                    WC()->session->set('wc_notices', array('error' => array(array('notice' => $validation_errors->get_error_message()))));
                     return;
                 }
 
@@ -252,9 +252,9 @@ class WCMp_User {
      */
     function vendor_login_redirect($redirect_to) {
         if (isset($_POST['email'])) {
-            $user = get_user_by('email', $_POST['email']);
+            $user = get_user_by('email', sanitize_email($_POST['email']));
             if (is_object($user) && isset($user->ID) && is_user_wcmp_vendor($user->ID)) {
-                $redirect_to = get_permalink(wcmp_vendor_dashboard_page_id());
+                $redirect_to = get_permalink(wcmp_vendor_dashboard_page_id()).'?page=vendor-store-setup';
                 return apply_filters('wcmp_vendor_login_redirect', $redirect_to, $user);
             }
             return apply_filters('wcmp_vendor_login_redirect', $redirect_to, $user);

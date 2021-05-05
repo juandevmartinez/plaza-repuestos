@@ -3,8 +3,12 @@
 namespace DgoraWcas\Integrations\Plugins\WooProductFilter;
 
 use  DgoraWcas\Helpers ;
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+}
 /**
- * Integration with Woo Product Filter
+ * Integration with WooCommerce Product Filter by WooBeWoo
  *
  * Plugin URL: https://wordpress.org/plugins/woo-product-filter/
  * Author: WooBeWoo
@@ -72,10 +76,10 @@ class WooProductFilter
             return;
         }
         if ( !empty($url_query_args['orderby']) ) {
-            $orderby = $url_query_args['orderby'];
+            $orderby = wc_clean( wp_unslash( $url_query_args['orderby'] ) );
         }
         if ( !empty($url_query_args['order']) ) {
-            $order = strtolower( $url_query_args['order'] );
+            $order = strtolower( wc_clean( wp_unslash( $url_query_args['order'] ) ) );
         }
         if ( $orderby === 'price' ) {
             $order = 'asc';
@@ -86,6 +90,9 @@ class WooProductFilter
         }
         
         if ( $post_ids ) {
+            if ( version_compare( WPF_VERSION, '1.4.8', '>=' ) ) {
+                $query->set( 's', '' );
+            }
             $query->set( 'post__in', $post_ids );
             $query->set( 'orderby', 'post__in' );
         }

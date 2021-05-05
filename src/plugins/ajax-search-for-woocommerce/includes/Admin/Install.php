@@ -3,6 +3,7 @@
 namespace DgoraWcas\Admin;
 
 use  DgoraWcas\Engines\TNTSearchMySQL\Indexer\Builder ;
+use  DgoraWcas\Helpers ;
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) {
     exit;

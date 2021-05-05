@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: WC Marketplace
+ * Plugin Name: Multivendor Marketplace Solution for WooCommerce - WC Marketplace
  * Plugin URI: https://wc-marketplace.com/
  * Description: A Free Extension That Transforms Your WooCommerce Site into a Marketplace.
  * Author: WC Marketplace
- * Version: 3.5.17
+ * Version: 3.7.2
  * Author URI: https://wc-marketplace.com/
  * Requires at least: 4.4
- * Tested up to: 5.6
+ * Tested up to: 5.7.1
  * WC requires at least: 3.0
- * WC tested up to: 4.9.2
+ * WC tested up to: 5.2.2
  *
  * Text Domain: dc-woocommerce-multi-vendor
  * Domain Path: /languages/
@@ -24,9 +24,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 if (!defined('WCMp_PLUGIN_TOKEN')) {
-    exit;
-}
-if (!defined('WCMp_TEXT_DOMAIN')) {
     exit;
 }
 

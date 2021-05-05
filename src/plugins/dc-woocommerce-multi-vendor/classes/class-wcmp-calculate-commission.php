@@ -385,7 +385,7 @@ class WCMp_Calculate_Commission {
 
                     $item_commission = $this->get_item_commission($product_id, $variation_id, $item, $order_id, $item_id);
 
-                    $wpdb->query("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_id = " . $commission[0] . ", commission_amount = '" . $item_commission . "' WHERE order_id =" . $order_id . " AND order_item_id = " . $item_id . " AND product_id = " . $product_id);
+                    $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_id = %d, commission_amount = %d WHERE order_id =%d AND order_item_id = %d AND product_id = %d", $commission[0],  $item_commission, $order_id, $item_id, $product_id));
                 } else {
                     $vendor_id = wc_get_order_item_meta($item_id, '_vendor_id', true);
                     if ($product_id) {
@@ -417,7 +417,7 @@ class WCMp_Calculate_Commission {
      * @param  int $line_total Line total of product
      * @return void
      */
-    public function record_commission($product_id = 0, $order_id = 0, $variation_id = 0, $order, $vendor, $item_id = 0, $item) {
+    public function record_commission($product_id = 0, $order_id = 0, $variation_id = 0, $order = '', $vendor = '', $item_id = 0, $item = '') {
         if ($product_id > 0) {
             if ($vendor) {
                 $vendor_due = $vendor->wcmp_get_vendor_part_from_order($order, $vendor->term_id);
@@ -438,7 +438,7 @@ class WCMp_Calculate_Commission {
      * @param  int $amount     Commission total
      * @return void
      */
-    public function create_commission($vendor_id = 0, $product_id = 0, $amount = 0, $order_id = 0, $variation_id = 0, $item_id = 0, $item, $order) {
+    public function create_commission($vendor_id = 0, $product_id = 0, $amount = 0, $order_id = 0, $variation_id = 0, $item_id = 0, $item = '', $order = '') {
         global $wpdb;
         if ($vendor_id == 0) {
             return false;
@@ -471,7 +471,7 @@ class WCMp_Calculate_Commission {
         // Mark commission as unpaid
         update_post_meta($commission_id, '_paid_status', 'unpaid');
         $item_commission = $this->get_item_commission($product_id, $variation_id, $item, $order_id, $item_id);
-        $wpdb->query("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_id = " . $commission_id . ", commission_amount = '" . $item_commission . "' WHERE order_id =" . $order_id . " AND order_item_id = " . $item_id . " AND product_id = " . $product_id);
+        $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_id = %d, commission_amount = %d WHERE order_id =%d AND order_item_id = %d AND product_id = %d", $commission_id, $item_commission, $order_id, $item_id, $product_id));
         do_action('wcmp_vendor_commission_created', $commission_id);
         return $commission_id;
     }
