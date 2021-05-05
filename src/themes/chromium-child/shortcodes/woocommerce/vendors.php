@@ -6,6 +6,7 @@ function shops_slider_connection(){
     ?>
         <div class="container-vendors">
             <div class="vendors">
+            <?php if( !empty( $vendors ) ):?>
                 <?php foreach( $vendors as $index => $array ):?>
                     <div class="vendors-slider flex-container hide" data-slide-vendors="<?php echo ($index + 1); ?>">
                         <div class="product type-product">
@@ -18,7 +19,7 @@ function shops_slider_connection(){
                         ?>
                             <div class="inner-wrapper">
                                 <div class="img-wrapper">
-                                    <a href="<?php echo $image; ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="210" height="210" src="<?php echo $image;?>" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" loading="lazy"></a>
+                                    <a href="<?php echo $permalink; ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="210" height="210" src="<?php echo $image;?>" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" loading="lazy"></a>
                                     <div class="buttons-wrapper"><span class="product-tooltip" style="display: none;"></span></div>
                                 </div>
                                 <div class="excerpt-wrapper">
@@ -32,9 +33,11 @@ function shops_slider_connection(){
                                 </div>
                             </div>
                         <?php endforeach;?>
+                      
                         </div>
                     </div>
                 <?php endforeach; ?>
+            <?php endif; ?>
             </div>
         </div>
     <?php

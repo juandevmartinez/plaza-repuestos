@@ -81,7 +81,7 @@
   require_once(__DIR__ . '/include/custom-dashboard.php');
   
  function var_view( $data ){
-    echo '<pre>' . var_dump( $data ) . '</pre>';
+    echo '<pre>' . var_export($data, true) . '</pre>';
  }
 
  function get_vendors_for_slider(){
@@ -92,5 +92,23 @@
    }
    return $ids;
  }
+
+
+ /**
+  * Hide unwanted columns in woocommerce product view
+  */
+add_filter( 'manage_edit-product_columns', 'change_columns_filter',10, 1 );
+function change_columns_filter( $columns ) {
+  unset($columns['product_tag']);
+  unset($columns['taxonomy-dc_vendor_shop']);
+  unset($columns['wcmp_product_gtin']);
+  unset($columns['wpseo-score']);
+  unset($columns['wpseo-score-readability']);
+  unset($columns['wpseo-title']);
+  unset($columns['wpseo-metadesc']);
+  unset($columns['wpseo-focuskw']);
+  unset($columns['comments']);
+  return $columns;
+}
  
  
