@@ -110,5 +110,4 @@ function change_columns_filter( $columns ) {
   unset($columns['comments']);
   return $columns;
 }
- 
- 
+
