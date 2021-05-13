@@ -84,13 +84,23 @@
     echo '<pre>' . var_export($data, true) . '</pre>';
  }
 
+ /**
+  * Get user ID's for each slider and check if those users are vendors
+  */
  function get_vendors_for_slider(){
    $slides = get_slides_from_slider();
    $ids = [];
    foreach( $slides as $index => $slide ){
       $ids[] = get_option( 'vendor_slider_' . $index );
    }
-   return $ids;
+
+   $vendors = [];
+   foreach( $ids as $id ){
+    if( is_user_wcmp_vendor( $id ) ){
+      $vendor[] = $id;
+    }
+   }
+   return $vendors;
  }
 
 
@@ -111,3 +121,25 @@ function change_columns_filter( $columns ) {
   return $columns;
 }
 
+/**
+ * Change label of roles
+ */
+add_filter('init', 'change_role_label' );
+function change_role_label(){
+  global $wp_roles;
+
+  if ( ! isset( $wp_roles ) )
+      $wp_roles = new WP_Roles();
+
+  //You can list all currently available roles like this...
+  //$roles = $wp_roles->get_names();
+  //print_r($roles);
+
+  //You can replace "administrator" with any other role "editor", "author", "contributor" or "subscriber"...
+  $wp_roles->roles['dc_vendor']['name'] = 'Local';
+  $wp_roles->role_names['dc_vendor'] = 'Local';   
+  $wp_roles->roles['dc_pending_vendor']['name'] = 'Local pendiente';
+  $wp_roles->role_names['dc_pending_vendor'] = 'Local pendiente';   
+  $wp_roles->roles['dc_rejected_vendor']['name'] = 'Local rechazado';
+  $wp_roles->role_names['dc_rejected_vendor'] = 'Local rechazado';   
+}
