@@ -10,6 +10,7 @@ services:
       - ./src/themes/:/var/www/html/wp-content/themes
       - ./src/plugins/:/var/www/html/wp-content/plugins
       - ./src/uploads/:/var/www/html/wp-content/uploads
+      - ./src/fonts/:/var/www/html/wp-content/fonts
     ports:
       - 80:80
     env_file:

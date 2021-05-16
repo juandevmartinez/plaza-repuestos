@@ -1,0 +1,120 @@
+.wcmp-store-locator-wrap, .wcmp-pagination-count, .woocommerce-products-header__title {
+    display: none !important;
+}
+
+
+body #wcmp-store-conatiner {
+    max-width: 100%;
+}
+
+.tax-dc_vendor_shop, .blog {
+    
+
+    .wcmp-theme01 {
+
+        .banner-img-cls {
+            height: 250px;
+            img {
+                object-position: center;
+            }
+        }
+
+        .wcmp-banner-below{
+            grid-template-columns: 1fr 5fr 1fr;
+    
+    
+            .wcmp-profile-area {
+                @media (min-width: 1024px){
+                    margin-top: -25px;
+                }
+            }
+    
+            .wcmp-profile-imgcls {
+                background: grey;
+                @media (min-width: 1024px){
+                    width: 150px;
+                    height: 150px;
+                }
+            }
+        }
+    }
+
+    .wcmp-font {
+        &::before {
+            color: $main-color;
+        }
+    }
+
+    .description_data {
+        padding-bottom: 20px;
+    }
+
+    .wcmp-contact-deatil {
+        p {
+            opacity: 0.8;
+        }
+    }
+
+    .wcmp-main-section{
+        .wcmp-middle-sec{
+            min-width: 75%
+        }
+
+        .woocommerce-result-count {
+            display: none;
+        }
+
+        .products.columns-3 {
+            padding-bottom: 50px;
+        }
+
+        .column-class:not(.wcmp-middle-sec) {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            height: fit-content;
+        }
+
+        .view-controls-wrapper {
+            margin-top: 10px;
+        }
+    }
+   
+    #page {
+        @media (min-width: 1024px){
+            display: flex !important;
+            flex-direction: row !important;
+
+            .woocommerce-products-header {
+                padding: 0 114px !important;
+            }
+
+           .wcmp-tab-header {
+              
+               border-radius: 0;
+               margin-top: 20px;
+
+               .wcmp-tablink {
+                background: transparent;
+                   &.active {
+                       &::before{
+                           background: $main-color;
+                       }
+                   }
+               }
+           } 
+
+            #main {
+                width: 100% !important;
+            }
+
+            .wcmp-main-section{
+                padding: 0 100px;
+            }
+        }
+    }
+
+    .by-vendor-name-link {
+        display: none !important;
+    }
+}

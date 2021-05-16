@@ -1,0 +1,7 @@
+body {
+    .widget_shopping_cart_content {
+        @media (max-width: 420px){
+            left: -100px;
+        }
+    }
+}
