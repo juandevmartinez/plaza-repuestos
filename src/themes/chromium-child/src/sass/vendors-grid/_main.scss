@@ -118,3 +118,77 @@ body #wcmp-store-conatiner {
         display: none !important;
     }
 }
+
+#wcmp-store-conatiner , .vendors-slider{
+    .card {
+        border-top-left-radius: calc(.25rem - 1px);
+        border-top-right-radius: calc(.25rem - 1px);
+        width: 100%;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        background: white;
+
+        .card-banner {
+            height: 130px;
+            width: 100%;
+            background: $main-color;
+
+            img {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .card-profile-pic {
+            width: 100%;
+            margin-top: -76px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            height: 120px;
+            
+
+            img{
+                background: white;
+                border: 1px solid rgba(0,0,0,.125);
+                object-fit: cover;
+                width: 150px;
+                height: 150px;
+                border-radius: calc(.25rem - 1px);
+            }
+        }
+
+
+
+        .card-information {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .vendor-address {
+                font-size: 13px;
+                opacity: 0.8;
+            }
+        }
+
+        .card-products {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-column-gap: 18px;
+            padding: 0 10px;
+        }
+    }
+}
+
+#wcmp-store-conatiner * .wcmp-store-list.wcmp-store-list-vendor {
+    box-shadow: none !important;
+}
+
+.woocommerce-shop {
+    .by-vendor-name-link {
+        display: none !important;
+    }
+}

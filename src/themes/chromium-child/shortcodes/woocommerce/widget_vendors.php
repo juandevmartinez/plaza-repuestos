@@ -31,8 +31,8 @@ function widget_vendors_slider(){
                             /**
                              * We are substracting one to get the full image
                              */
-                            $image = is_numeric($vendor->image) ? wp_get_attachment_image_src($vendor->image - 1, 'large')[0] : $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
-                            $address = $vendor->get_formatted_address();
+                            $image = $vendor->get_image() ? $vendor->get_image('image', array(300, 300)) : $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
+                            $address = $vendor->get_formatted_address() ? substr( $vendor->get_formatted_address(), 0, 15) : '';
                             $permalink = $vendor->get_permalink();  
                             $shop_name = get_user_meta( $user->ID,'_vendor_page_title', true );
                         ?>
@@ -44,7 +44,7 @@ function widget_vendors_slider(){
                                 </a>
                             </div>
                             <div class="excerpt-wrapper">
-                                <p class="primary-cat address"><?php echo $address; ?></p>
+                                <p class="primary-cat address"><?php echo $address; ?>...</p>
                                 <a href="<?php echo $permalink; ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
                                 <h2 class="woocommerce-loop-product__title"> <?php echo $shop_name; ?></h2>
                                 </a>

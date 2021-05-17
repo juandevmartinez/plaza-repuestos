@@ -33,5 +33,6 @@ jQuery(document).ready(function($){
                 });
             }
         }, 100);
+        setTimeout(clearInterval, 10000, checkIsExist);
     }
 });

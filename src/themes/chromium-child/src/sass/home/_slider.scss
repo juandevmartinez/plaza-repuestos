@@ -3,6 +3,10 @@
     width: 100%;
     margin: 0 auto;
     margin-bottom: 40px;
+
+    @media (max-width: 728px){
+        display: none !important;
+    }
 }
 
 .vendors-slider-wrapper {
@@ -11,16 +15,34 @@
 }
 
 .hide {
-    display: none;
+    display: none !important;
     opacity: 0%;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 10px;
 }
 
 .vendors-slider {
     opacity: 100%;
-    transition: all 0.2 ease-in-out;
+    transition: all 0.2 ease-in-out !important;
+
+    .card-information {
+        margin-top: 51px;
+    }
+
+    .woocommerce-loop-product__title {
+        font-size: 15px;
+    }
+
+    div.product {
+        grid-template-columns: repeat(5,1fr);
+    }
 
     .address{
-        font-size: 0.765em;
+        font-size: 10px;
         font-weight: 500;
         text-transform: uppercase;
         color: #a9a9a9;

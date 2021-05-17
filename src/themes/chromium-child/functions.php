@@ -93,14 +93,7 @@
    foreach( $slides as $index => $slide ){
       $ids[] = get_option( 'vendor_slider_' . $index );
    }
-
-   $vendors = [];
-   foreach( $ids as $id ){
-    if( is_user_wcmp_vendor( $id ) ){
-      $vendor[] = $id;
-    }
-   }
-   return $vendors;
+   return $ids;
  }
 
 

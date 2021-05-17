@@ -8,33 +8,43 @@ function shops_slider_connection(){
             <div class="vendors">
             <?php if( !empty( $vendors ) ):?>
                 <?php foreach( $vendors as $index => $array ):?>
-                    <div class="vendors-slider flex-container hide" data-slide-vendors="<?php echo ($index + 1); ?>">
-                        <div class="product type-product">
+                    <div class="vendors-slider grid-container hide" data-slide-vendors="<?php echo ($index + 1); ?>">
                         <?php foreach( $array as $user ):
                             $vendor = get_wcmp_vendor( $user );
-                            $image = is_numeric($vendor->image) ? wp_get_attachment_image_src($vendor->image - 1, 'large')[0] : $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
-                            $address = $vendor->get_formatted_address();
+                            $image = $vendor->get_image() ? $vendor->get_image('image', array(300, 300)) : $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
+                            $address = $vendor->get_formatted_address() ? substr( $vendor->get_formatted_address(), 0, 25) : '';
                             $permalink = $vendor->get_permalink();  
-                            $shop_name = get_user_meta( $user,'_vendor_page_title', true );
+                            $vendor_name = substr(esc_html($vendor->page_title), 0, 20);
+                            $banner = $vendor->get_image('banner') ? $vendor->get_image('banner') : false;
+                            $products = $vendor->get_products() ? $vendor->get_products( array( 'posts_per_page' => 3 ) ) : false;
                         ?>
-                            <div class="inner-wrapper">
-                                <div class="img-wrapper">
-                                    <a href="<?php echo $permalink; ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link"><img width="210" height="210" src="<?php echo $image;?>" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" loading="lazy"></a>
-                                    <div class="buttons-wrapper"><span class="product-tooltip" style="display: none;"></span></div>
+                            <div class="card">
+                                <div class="card-banner">
+                                    <?php if( $banner ): ?>
+                                        <img src="<?php echo $banner ?>" alt="banner">
+                                    <?php endif; ?>
                                 </div>
-                                <div class="excerpt-wrapper">
-                                    <a href="<?php echo $permalink; ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
-                                        <p class="address"><?php echo $address; ?></p>
-                                        <h2 class="woocommerce-loop-product__title"><?php echo $shop_name; ?></h2>
-                                    </a>
-                                    <div class="price-wrapper">
-                                        <a href="<?php echo $permalink; ?>" class="button product_type_simple" rel="nofollow">Ver local</a>
-                                    </div>
+                                <div class="card-profile-pic">
+                                    <a href="<?php echo $permalink; ?>"><img src="<?php echo $image ?>" alt="profile-pic"></a>
+                                </div>
+                                <div class="card-information">
+                                    <a href="<?php echo $permalink; ?>" class="vendor-name"><?php echo $vendor_name ?></a>
+                                    <p class="vendor-address"> <?php echo $address ?>... </p>
+                                </div>
+                                <div class="card-products">
+                                    <?php if( $products ): ?>
+                                        <?php foreach( $products as $post ):
+                                            $product = wc_get_product( $post->ID );
+                                            $image = $product->get_image();
+                                            $product_link = get_permalink( $post->ID ); 
+                                        ?>
+
+                                            <a href="<?php echo $product_link; ?>"><?php echo $image; ?></a>
+                                        <?php endforeach ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php endforeach;?>
-                      
-                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
