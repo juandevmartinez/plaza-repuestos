@@ -21,8 +21,11 @@ body #wcmp-store-conatiner {
 
         .wcmp-banner-below{
             grid-template-columns: 1fr 5fr 1fr;
+            @media (max-width: 425px){
+                grid-template-columns: unset;
+            }
     
-    
+
             .wcmp-profile-area {
                 @media (min-width: 1024px){
                     margin-top: -25px;
@@ -106,6 +109,16 @@ body #wcmp-store-conatiner {
 
             #main {
                 width: 100% !important;
+            }
+
+            @media(min-width: 1800px){
+                .woocommerce-products-header {
+                    width: 100%;
+                }
+
+                .wcmp-main-section .products.columns-3 {
+                    grid-template-columns: repeat(6, 1fr);
+                }
             }
 
             .wcmp-main-section{
