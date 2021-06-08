@@ -13,7 +13,7 @@ body #wcmp-store-conatiner {
     .wcmp-theme01 {
 
         .banner-img-cls {
-            height: 250px;
+            height: 420px;
             img {
                 object-position: center;
             }
@@ -111,13 +111,13 @@ body #wcmp-store-conatiner {
                 width: 100% !important;
             }
 
-            @media(min-width: 1800px){
+            @media(min-width: 1700px){
                 .woocommerce-products-header {
                     width: 100%;
                 }
 
                 .wcmp-main-section .products.columns-3 {
-                    grid-template-columns: repeat(6, 1fr);
+                    grid-template-columns: repeat(5, 1fr);
                 }
             }
 
@@ -183,6 +183,17 @@ body #wcmp-store-conatiner {
             .vendor-address {
                 font-size: 13px;
                 opacity: 0.8;
+
+                @media (max-width: 425px){
+                    display: none;
+                }
+            }
+
+            .vendor-name {
+                @media (max-width: 425px){
+                    padding: 0 5px;
+                    font-size: 12px;
+                }
             }
         }
 
@@ -192,6 +203,10 @@ body #wcmp-store-conatiner {
             grid-template-columns: 1fr 1fr 1fr;
             grid-column-gap: 18px;
             padding: 0 10px;
+
+            @media (max-width: 425px){
+                display: none;
+            }
         }
     }
 }

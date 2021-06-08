@@ -3,10 +3,6 @@
     width: 100%;
     margin: 0 auto;
     margin-bottom: 40px;
-
-    @media (max-width: 728px){
-        display: none !important;
-    }
 }
 
 .vendors-slider-wrapper {
@@ -23,6 +19,11 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 10px;
+
+    @media (max-width: 728px){
+        grid-template-columns: repeat(2, 1fr);
+        grid-row-gap: 10px;
+    }
 }
 
 .vendors-slider {
