@@ -1,0 +1,23 @@
+.wc-setup-steps {
+    li.done, li.active{
+        color: $main-color;
+        border-color: $main-color; 
+        &::before{
+            color: $main-color;
+            border-color: $main-color; 
+        }
+    }
+}
+
+body .wc-setup-content .button-primary {
+    background: $main-color !important; 
+    border-color: $main-color !important;
+    color: $hover-color;
+    text-shadow: none !important;
+
+    &:hover{
+        color: white !important;
+        background-color: $hover-color !important;
+        border-color: $hover-color !important;
+    }
+}

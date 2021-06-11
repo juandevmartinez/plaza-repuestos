@@ -19,6 +19,24 @@ class Divi {
 		$this->maybeOverwriteSearch();
 
 		add_filter( 'dgwt/wcas/settings', array( $this, 'registerSettings' ) );
+
+		add_filter( 'et_builder_load_requests', array( $this, 'loadDiviInAjaxRequests' ) );
+	}
+
+	/**
+	 * Force to load Divi builder during AJAX queries for objects details
+	 *
+	 * @param array $requests
+	 *
+	 * @return array
+	 */
+	public function loadDiviInAjaxRequests( $requests ) {
+		if ( ! isset( $requests['wc-ajax'] ) ) {
+			$requests['wc-ajax'] = array();
+		}
+		$requests['wc-ajax'][] = 'dgwt_wcas_result_details';
+
+		return $requests;
 	}
 
 	/**
@@ -54,7 +72,7 @@ class Divi {
 		$settings[ $key ][55] = array(
 			'name'    => $this->themeSlug . '_replace_search',
 			'label'   => __( 'Replace', 'ajax-search-for-woocommerce' ),
-			'desc'    => sprintf( __( 'Replace all %s search bars with the Ajax Search for WooCommerce.', 'ajax-search-for-woocommerce' ), $this->themeName ),
+			'desc'    => sprintf( __( 'Replace all %s search bars with the %s.', 'ajax-search-for-woocommerce' ), $this->themeName, DGWT_WCAS_NAME ),
 			'type'    => 'checkbox',
 			'default' => 'off',
 		);
@@ -70,8 +88,7 @@ class Divi {
 	}
 
 	/**
-	 * Check if can replace the native search form
-	 * by the Ajax Search for WooCommerce form.
+	 * Check if can replace the native search form with the FiboSearch form.
 	 *
 	 * @return bool
 	 */

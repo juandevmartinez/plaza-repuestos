@@ -11,6 +11,7 @@ class RegenerateImages {
 
 	const ALREADY_REGENERATED_OPT_KEY = 'dgwt_wcas_images_regenerated';
 	const REGENERATE_ACTION = 'dgwt_wcas_regenerate_images';
+	const REGENERATE_ACTION_NONCE = 'dgwt_wcas_regenerate_images_nonce';
 	const DISMISS_AJAX_ACTION = 'dgwt_wcas_dismiss_notice_regenerate_images';
 
 	public function __construct() {
@@ -49,6 +50,12 @@ class RegenerateImages {
 	 * @return void
 	 */
 	public function regenerateImages() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_die( - 1, 403 );
+		}
+
+		check_ajax_referer( self::REGENERATE_ACTION_NONCE );
+
 		if ( class_exists( 'WC_Regenerate_Images' ) ) {
 
 			if ( method_exists( 'Jetpack', 'is_module_active' ) && \Jetpack::is_module_active( 'photon' ) ) {
@@ -92,8 +99,8 @@ class RegenerateImages {
 				<?php
 				$button     = '<a href="#" class="button button-small js-dgwt-wcas-start-regenerate-images">' . __( 'Regenerate WooCommerce images' ) . '</a>';
 				$pluginLink = '<a target="_blank" href="https://wordpress.org/plugins/regenerate-thumbnails/">Regenerate Thumbnails</a>';
-				printf( __( '<b>AJAX Search for WooCommerce</b>: It is recommended to generate a special small image size for existing products to ensure a better user experience. This is a one-time action. <br /><br />You can do it by clicking %s or use external plugin e.g. %s.',
-					'ajax-search-for-woocommerce' ), $button, $pluginLink );
+				printf( __( '%s: it is recommended to generate a special small image size for existing products to ensure a better user experience. This is a one-time action. <br /><br />You can do it by clicking %s or use an external plugin such as %s.',
+					'ajax-search-for-woocommerce' ), '<b>' . DGWT_WCAS_NAME . '</b>', $button, $pluginLink );
 				?>
 			</p>
 		</div>
@@ -104,12 +111,11 @@ class RegenerateImages {
 	/**
 	 * Hide admin notice
 	 *
-	 * @return null
+	 * @return void
 	 */
 	public function dismissNotice() {
-
 		if ( ! current_user_can( 'administrator' ) ) {
-			return;
+			wp_die( - 1, 403 );
 		}
 
 		update_option( self::ALREADY_REGENERATED_OPT_KEY, true );
@@ -160,17 +166,18 @@ class RegenerateImages {
 
 				$(document).on('click', '.js-dgwt-wcas-start-regenerate-images', function () {
 
-					$('.js-dgwt-wcas-notice-regenerate-images p').html('<b>AJAX Search for WooCommerce</b>: (...)');
+					$('.js-dgwt-wcas-notice-regenerate-images p').html('<?php echo '<b>' . DGWT_WCAS_FULL_NAME . '</b>' ?>: (...)');
 
 					$.ajax({
 						url: ajaxurl,
 						data: {
 							action: '<?php echo self::REGENERATE_ACTION; ?>',
+							_wpnonce: '<?php echo wp_create_nonce( self::REGENERATE_ACTION_NONCE ); ?>'
 						}
 					}).done(function (data) {
 
 						setTimeout(function () {
-							$('.js-dgwt-wcas-notice-regenerate-images p').html('<b>AJAX Search for WooCommerce</b>: <?php _e( 'Regeneration of images started. The process will continue in the background.' ); ?>');
+							$('.js-dgwt-wcas-notice-regenerate-images p').html('<?php echo '<b>' . DGWT_WCAS_FULL_NAME . '</b>' ?>: <?php _e( 'Regeneration of images started. The process will continue in the background.' ); ?>');
 						}, 700);
 
 					});

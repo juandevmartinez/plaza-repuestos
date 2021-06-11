@@ -1,0 +1,85 @@
+.container-vendors {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+.vendors-slider-wrapper {
+    display: block;
+    width: 100%;
+}
+
+.hide {
+    display: none !important;
+    opacity: 0%;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 10px;
+
+    @media (max-width: 728px){
+        grid-template-columns: repeat(2, 1fr);
+        grid-row-gap: 10px;
+    }
+}
+
+.vendors-slider {
+    opacity: 100%;
+    transition: all 0.2 ease-in-out !important;
+
+    .card-information {
+        margin-top: 51px;
+    }
+
+    .woocommerce-loop-product__title {
+        font-size: 15px;
+    }
+
+    div.product {
+        grid-template-columns: repeat(5,1fr);
+    }
+
+    .address{
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: #a9a9a9;
+        max-height: 20px;
+    }
+
+    .img-wrapper {
+        img {
+            width: 100%;
+            max-height: 186px;
+            object-fit: cover;
+        }
+    } 
+}
+
+.elementor-shortcode{
+    .vendor-profile-tab-image {
+        width: 250px !important;
+        height: 250px !important;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .vendor-inner-wrapper {
+        min-height: 400px !important;
+    }
+
+    .type-vendor-slide {
+        @media (max-width: 425px){
+            max-width: 100% !important;
+        }
+    }
+
+    .tab-pane-vendors {
+        .slider-navi {
+            top: 0px !important;
+        }
+    }
+}

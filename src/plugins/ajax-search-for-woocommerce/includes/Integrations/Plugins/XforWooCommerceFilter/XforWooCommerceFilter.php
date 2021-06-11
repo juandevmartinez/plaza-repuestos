@@ -1,8 +1,15 @@
 <?php
 
+/**
+ * @dgwt_wcas_premium_only
+ */
 namespace DgoraWcas\Integrations\Plugins\XforWooCommerceFilter;
 
 use  DgoraWcas\Helpers ;
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+}
 /**
  * Integration with Product Filter for WooCommerce
  *
@@ -51,7 +58,7 @@ class XforWooCommerceFilter
         if ( !$this->is_prdctfltr_ajax_search() ) {
             return;
         }
-        $orderby = ( isset( $_POST['pf_filters'][$_POST['pf_id']]['orderby'] ) ? $_POST['pf_filters'][$_POST['pf_id']]['orderby'] : 'relevance' );
+        $orderby = ( isset( $_POST['pf_filters'][$_POST['pf_id']]['orderby'] ) ? wc_clean( wp_unslash( $_POST['pf_filters'][$_POST['pf_id']]['orderby'] ) ) : 'relevance' );
         $order = 'desc';
         if ( $orderby === 'price' ) {
             $order = 'asc';

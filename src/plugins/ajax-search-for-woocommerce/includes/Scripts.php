@@ -22,7 +22,7 @@ class Scripts
      */
     public function loadScripts()
     {
-        $min = ( !DGWT_WCAS_DEBUG ? '.min' : '' );
+        $min = ( SCRIPT_DEBUG ? '' : '.min' );
         //Register
         wp_register_style(
             'dgwt-wcas-style',
@@ -76,6 +76,10 @@ class Scripts
             'preloader_icon'               => Helpers::getIcon( 'preloader' ),
             'custom_params'                => (object) apply_filters( 'dgwt/wcas/scripts/custom_params', array() ),
             'convert_html'                 => true,
+            'suggestions_wrapper'          => apply_filters( 'dgwt/wcas/scripts/suggestions_wrapper', 'body' ),
+            'show_product_vendor'          => dgoraAsfwFs()->is_premium() && class_exists( 'DgoraWcas\\Integrations\\Marketplace\\Marketplace' ) && DGWT_WCAS()->marketplace->showProductVendor(),
+            'disable_hits'                 => apply_filters( 'dgwt/wcas/scripts/disable_hits', false ),
+            'disable_submit'               => apply_filters( 'dgwt/wcas/scripts/disable_submit', false ),
         );
         if ( Multilingual::isMultilingual() ) {
             $localize['current_lang'] = Multilingual::getCurrentLanguage();

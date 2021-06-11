@@ -258,6 +258,9 @@
         debounceWaitMs: 400,
         sendGAEvents: true,
 		enableGASiteSearchModule: false,
+		showProductVendor: false,
+		disableHits: false,
+		disableSubmit: false,
     }
 
     function _lookupFilter(suggestion, originalQuery, queryLowerCase) {
@@ -416,6 +419,11 @@
 			// Extra tasks on submit
 			that.el.closest('.' + that.options.formClass).on('submit.autocomplete', function (e) {
 
+				if (that.options.disableSubmit) {
+					e.preventDefault();
+					return false;
+				}
+
 				// If variation suggestion exist, click it instead submit search results page
 				if (that.suggestions.length > 0) {
 
@@ -435,9 +443,13 @@
 			});
 
 			// Position preloader
-			$(window).on('load', function () {
+			if (document.readyState === 'complete') {
 				that.positionPreloader();
-			});
+			} else {
+				$(window).on('load', function () {
+					that.positionPreloader();
+				});
+			}
 
 
             that.el.on('keydown.autocomplete', function (e) {
@@ -501,7 +513,12 @@
             	if(!alreadyClicked) {
 					var that = utils.getActiveInstance();
 					that.actionTriggerSource = 'click';
+
 					alreadyClicked = true;
+					setTimeout(function(){
+						alreadyClicked = false;
+					}, 500);
+
 					that.select($(this).data('index'));
 				}
             });
@@ -609,9 +626,13 @@
 				that.applyFlexibleMode();
 			});
 
-			$(window).on('load', function () {
+			if (document.readyState == 'complete') {
 				that.applyFlexibleMode();
-			});
+			} else {
+				$(window).on('load', function () {
+					that.applyFlexibleMode();
+				});
+			}
 
 		},
         registerEventsFixedMenu: function () {
@@ -1801,7 +1822,8 @@
                         prepend = '',
                         append = '',
                         title = '',
-                        highlight = true;
+                        highlight = true,
+                        isImg;
 
                     if (suggestion.taxonomy === 'product_cat') {
                         classes += ' dgwt-wcas-suggestion-tax dgwt-wcas-suggestion-cat';
@@ -1824,7 +1846,12 @@
                         if (!options.showHeadings) {
                             prepend += '<span class="dgwt-wcas-st--direct-headline">' + dgwt_wcas.labels.brand + '</span>';
                         }
-                    } else if (options.isPremium && suggestion.type === 'post') {
+                    } else if (options.isPremium && suggestion.type === 'vendor') {
+						classes += ' dgwt-wcas-suggestion-vendor dgwt-wcas-suggestion-vendor';
+						if (!options.showHeadings) {
+							prepend += '<span class="dgwt-wcas-st--direct-headline">' + dgwt_wcas.labels.vendor + '</span>';
+						}
+					} else if (options.isPremium && suggestion.type === 'post') {
                         classes += ' dgwt-wcas-suggestion-pt dgwt-wcas-suggestion-tp-post';
                         if (!options.showHeadings) {
                             prepend += '<span class="dgwt-wcas-st--direct-headline">' + dgwt_wcas.labels.post + '</span>';
@@ -1855,10 +1882,42 @@
                         $('body').addClass('dgwt-wcas-nores');
                     }
 
+					// Image
+					if (typeof suggestion.image_src != 'undefined' && suggestion.image_src) {
+						isImg = true;
+					}
+
                     title = title.length > 0 ? ' title="' + title + '"' : '';
 
                     html += '<div class="' + classes + '" data-index="' + i + '">';
-                    html += '<span' + title + ' class="' + innerClass + '">' + prepend + formatResult(suggestion.value, value, highlight, options) + append + '</span>';
+
+                    if(isImg) {
+						html += '<span class="dgwt-wcas-si"><img src="' + suggestion.image_src + '" /></span>';
+						html += '<div class="dgwt-wcas-content-wrapp">';
+					}
+
+					html += '<span' + title + ' class="' + innerClass + '">';
+
+					if (suggestion.type === 'vendor') {
+						html += '<span class="dgwt-wcas-st-title">' + prepend + formatResult(suggestion.value, value, highlight, options) + append + '</span>';
+
+						// Vendor city
+						if (suggestion.shop_city) {
+							html += '<span class="dgwt-wcas-vendor-city"><span> - </span>' + formatResult(suggestion.shop_city, value, true, options) + '</span>';
+						}
+
+						// Description
+						if (typeof suggestion.desc != 'undefined' && suggestion.desc) {
+							html += '<span class="dgwt-wcas-sd">' + formatResult(suggestion.desc, value, true, options) + '</span>';
+						}
+
+					}else{
+						html += prepend + formatResult(suggestion.value, value, highlight, options) + append;
+					}
+
+					html += '</span>';
+
+					html += isImg ? '</div>' : '';
                     html += '</div>';
                 } else {
 
@@ -1896,6 +1955,18 @@
                     if (options.showDescription === true && typeof suggestion.desc != 'undefined' && suggestion.desc) {
                         html += '<span class="dgwt-wcas-sd">' + formatResult(suggestion.desc, value, true, options) + '</span>';
                     }
+
+					// Vendor
+					if (options.showProductVendor === true && typeof suggestion.vendor != 'undefined' && suggestion.vendor) {
+						var vendorBody = '<span class="dgwt-wcas-product-vendor"><span class="dgwt-wcas-product-vendor-label">' + dgwt_wcas.labels.vendor_sold_by + ' </span>' + suggestion.vendor + '</span>'
+
+						if (typeof suggestion.vendor_url != 'undefined' && suggestion.vendor_url) {
+							html += '<a href="' + suggestion.vendor_url + '">' + vendorBody + '</a>';
+						} else {
+							html += vendorBody;
+						}
+
+					}
 
                     html += '</span>';
 
@@ -2200,6 +2271,11 @@
         },
         select: function (i) {
             var that = this;
+
+            if(that.options.disableHits){
+            	return;
+			}
+
             that.hide();
             that.onSelect(i);
         },
@@ -2361,7 +2437,7 @@
             $('html').addClass('dgwt-wcas-overlay-mobile-on');
             html += '<div class="js-dgwt-wcas-overlay-mobile dgwt-wcas-overlay-mobile">';
             html += '<div class="dgwt-wcas-om-bar js-dgwt-wcas-om-bar">';
-            html += '<span class="dgwt-wcas-om-return js-dgwt-wcas-om-return">'
+            html += '<button class="dgwt-wcas-om-return js-dgwt-wcas-om-return">'
 			if (typeof dgwt_wcas.back_icon == 'string') {
 				html += dgwt_wcas.back_icon;
 			} else {
@@ -2370,7 +2446,7 @@
 				html += '<path fill="#FFF" d="M14 6.125H3.351l4.891-4.891L7 0 0 7l7 7 1.234-1.234L3.35 7.875H14z" fill-rule="evenodd"></path>';
 				html += '</svg>';
 			}
-            html += '</span>';
+            html += '</button>';
             html += '</div>';
             html += '</div>';
 
@@ -2420,6 +2496,7 @@
                 var $closeBtn = $clonedForm.find('.dgwt-wcas-close');
                 if ($clonedForm.length > 0) {
                     $closeBtn.removeClass('dgwt-wcas-close');
+					$closeBtn.html('');
                 }
 
 				that.hide();
@@ -2599,12 +2676,51 @@
                 sendGAEvents: dgwt_wcas.send_ga_events,
                 convertHtml: dgwt_wcas.convert_html,
 				enableGASiteSearchModule: dgwt_wcas.enable_ga_site_search_module,
+				appendTo: typeof dgwt_wcas.suggestions_wrapper  != 'undefined' ? dgwt_wcas.suggestions_wrapper : 'body',
+				showProductVendor: typeof dgwt_wcas.show_product_vendor != 'undefined' && dgwt_wcas.show_product_vendor ? true : false,
+				disableHits: typeof dgwt_wcas.disable_hits != 'undefined' && dgwt_wcas.disable_hits ? true : false,
+				disableSubmit: typeof dgwt_wcas.disable_submit != 'undefined' && dgwt_wcas.disable_submit ? true : false
             };
 
             $('.dgwt-wcas-search-input').dgwtWcasAutocomplete(window.dgwt_wcas.config);
 
         });
 
+		/*-----------------------------------------------------------------
+        /* Fix broken search bars after click browser's back arrow.
+        /* Not worked for some browsers especially Safari and FF
+        /* Add dgwt-wcas-active class if wasn't added for some reason
+		/*
+        /*------------ -----------------------------------------------------*/
+		$(window).on('load', function () {
+			var i = 0;
+			var interval = setInterval(function () {
+
+				var activeEl = document.activeElement;
+
+				if (
+					typeof activeEl == 'object'
+					&& $(activeEl).length
+					&& $(activeEl).hasClass('dgwt-wcas-search-input')
+				) {
+
+					var $search = $(activeEl).closest('.dgwt-wcas-search-wrapp');
+
+					if ($search.length && !$search.hasClass('dgwt-wcas-active')) {
+						$search.addClass('dgwt-wcas-active');
+						clearInterval(interval);
+					}
+				}
+
+				// Stop after 5 seconds
+				if (i > 10) {
+					clearInterval(interval);
+				}
+
+				i++;
+
+			}, 500);
+		});
 
         /*-----------------------------------------------------------------
         /* Fix broken search bars by 3rd party plugins

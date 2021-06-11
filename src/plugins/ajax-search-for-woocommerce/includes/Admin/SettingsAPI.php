@@ -143,7 +143,9 @@ class SettingsAPI
             
             if ( isset( $section['desc'] ) && !empty($section['desc']) ) {
                 $section['desc'] = '<div class="inside">' . $section['desc'] . '</div>';
-                $callback = create_function( '', 'echo "' . str_replace( '"', '\\"', $section['desc'] ) . '";' );
+                $callback = function () use( $section ) {
+                    echo  $section['desc'] ;
+                };
             } elseif ( isset( $section['callback'] ) ) {
                 $callback = $section['callback'];
             } else {
@@ -596,6 +598,29 @@ class SettingsAPI
     }
     
     /**
+     * Displays filters rules in settings
+     *
+     * @param array $args settings field args
+     */
+    function callback_filters_rules_plug( $args )
+    {
+        ob_start();
+        ?>
+		<div id="dgwt-wcas-settings-filters-rules">
+			<div>
+				<p><?php 
+        _e( 'No rules', 'ajax-search-for-woocommerce' );
+        ?></p><br>
+			</div>
+			<button class="button button-secondary"><?php 
+        _e( 'Add new rule', 'ajax-search-for-woocommerce' );
+        ?></button>
+		</div>
+		<?php 
+        echo  ob_get_clean() ;
+    }
+    
+    /**
      * Sanitize callback for Settings API
      */
     function sanitize_options( $options )
@@ -680,7 +705,7 @@ class SettingsAPI
         }
         $html .= '<a target="_blank" href="' . dgoraAsfwFs()->contact_url() . '" class="js-nav-tab-minor nav-tab-minor nav-tab-minor-contact" >' . __( 'Contact', 'ajax-search-for-woocommerce' ) . '</a>';
         if ( !dgoraAsfwFs()->is_premium() ) {
-            $html .= '<a target="_blank" href="https://ajaxsearch.pro/showcase/?utm_source=wp-admin&utm_medium=referral&utm_campaign=settings&utm_content=showcase&utm_gen=utmdc" class="js-nav-tab-minor nav-tab-minor nav-tab-minor-showcase" >' . __( 'Showcase', 'ajax-search-for-woocommerce' ) . '</a>';
+            $html .= '<a target="_blank" href="https://fibosearch.com/showcase/?utm_source=wp-admin&utm_medium=referral&utm_campaign=settings&utm_content=showcase&utm_gen=utmdc" class="js-nav-tab-minor nav-tab-minor nav-tab-minor-showcase" >' . __( 'Showcase', 'ajax-search-for-woocommerce' ) . '</a>';
         }
         $html .= '</h2>';
         echo  $html ;
