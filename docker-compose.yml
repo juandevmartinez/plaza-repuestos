@@ -28,7 +28,7 @@ services:
       dockerfile: ../Dockerfile
     restart: unless-stopped
     links:
-      - wordpress:${SITE_URL}
+      - wordpress:${WP_VERSION}
     env_file:
       - ./.env
     ports:
