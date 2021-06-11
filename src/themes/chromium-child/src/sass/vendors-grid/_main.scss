@@ -1,0 +1,214 @@
+.wcmp-store-locator-wrap, .wcmp-pagination-count, .woocommerce-products-header__title {
+    display: none !important;
+}
+
+
+
+body #wcmp-store-conatiner {
+    max-width: 100%;
+}
+
+.tax-dc_vendor_shop, .blog {
+    
+
+    .wcmp-theme01 {
+
+        .banner-img-cls {
+            height: 420px;
+            img {
+                object-position: center;
+            }
+        }
+
+        .wcmp-banner-below{
+            grid-template-columns: 1fr 5fr 1fr;
+            @media (max-width: 425px){
+                grid-template-columns: unset;
+            }
+    
+
+            .wcmp-profile-area {
+                @media (min-width: 1024px){
+                    margin-top: -25px;
+                }
+            }
+    
+            .wcmp-profile-imgcls {
+                background: grey;
+                @media (min-width: 1024px){
+                    width: 150px;
+                    height: 150px;
+                }
+            }
+        }
+    }
+
+    .wcmp-font {
+        &::before {
+            color: $main-color;
+        }
+    }
+
+    .description_data {
+        padding-bottom: 20px;
+    }
+
+    .wcmp-contact-deatil {
+        p {
+            opacity: 0.8;
+        }
+    }
+
+    .wcmp-main-section{
+        max-width: 1200px;
+        margin: 0 auto;
+        
+        .wcmp-middle-sec{
+            min-width: 75%
+        }
+
+        .woocommerce-result-count {
+            display: none;
+        }
+
+        .products.columns-3 {
+            padding-bottom: 50px;
+        }
+
+        .column-class:not(.wcmp-middle-sec) {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            height: fit-content;
+        }
+
+        .view-controls-wrapper {
+            margin-top: 10px;
+        }
+    }
+   
+    #page {
+        @media (min-width: 1024px){
+            display: flex !important;
+            flex-direction: row !important;
+
+            .woocommerce-products-header {
+                max-width: 1200px;
+                width: 100%;
+            }
+
+           .wcmp-tab-header {
+              
+               border-radius: 0;
+               margin-top: 20px;
+
+               .wcmp-tablink {
+                background: transparent;
+                   &.active {
+                       &::before{
+                           background: $main-color;
+                       }
+                   }
+               }
+           } 
+
+            #main {
+                width: 100% !important;
+            }
+            
+        }
+    }
+
+    .by-vendor-name-link {
+        display: none !important;
+    }
+}
+
+#wcmp-store-conatiner , .vendors-slider{
+    .card {
+        border-top-left-radius: calc(.25rem - 1px);
+        border-top-right-radius: calc(.25rem - 1px);
+        width: 100%;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+        background: white;
+
+        .card-banner {
+            height: 130px;
+            width: 100%;
+            background: $main-color;
+
+            img {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .card-profile-pic {
+            width: 100%;
+            margin-top: -76px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            height: 120px;
+            
+
+            img{
+                background: white;
+                border: 1px solid rgba(0,0,0,.125);
+                object-fit: cover;
+                width: 150px;
+                height: 150px;
+                border-radius: calc(.25rem - 1px);
+            }
+        }
+
+
+
+        .card-information {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .vendor-address {
+                font-size: 13px;
+                opacity: 0.8;
+
+                @media (max-width: 425px){
+                    display: none;
+                }
+            }
+
+            .vendor-name {
+                @media (max-width: 425px){
+                    padding: 0 5px;
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .card-products {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-column-gap: 18px;
+            padding: 0 10px;
+
+            @media (max-width: 425px){
+                display: none;
+            }
+        }
+    }
+}
+
+#wcmp-store-conatiner * .wcmp-store-list.wcmp-store-list-vendor {
+    box-shadow: none !important;
+}
+
+.woocommerce-shop {
+    .by-vendor-name-link {
+        display: none !important;
+    }
+}

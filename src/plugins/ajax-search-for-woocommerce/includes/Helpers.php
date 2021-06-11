@@ -436,27 +436,6 @@ class Helpers
     }
     
     /**
-     * Logging method.
-     *
-     * @param string $message Log message.
-     * @param string $level Optional. Default 'info'. Possible values:
-     *                      emergency|alert|critical|error|warning|notice|info|debug.
-     */
-    public static function log( $message, $level = 'info', $source = 'main' )
-    {
-        
-        if ( defined( 'DGWT_WCAS_DEBUG' ) && DGWT_WCAS_DEBUG === true ) {
-            if ( empty(self::$log) ) {
-                self::$log = wc_get_logger();
-            }
-            self::$log->log( $level, $message, array(
-                'source' => 'dgwt-wcas-' . $source,
-            ) );
-        }
-    
-    }
-    
-    /**
      * Get readable format of memory
      *
      * @param int $bytes
@@ -699,20 +678,6 @@ class Helpers
     }
     
     /**
-     * Log by WooCommerce logger
-     *
-     * @return void
-     */
-    public static function WCLog( $level = 'debug', $message = '' )
-    {
-        $logger = wc_get_logger();
-        $context = array(
-            'source' => 'ajax-search-for-woocommerce',
-        );
-        $logger->log( $level, $message, $context );
-    }
-    
-    /**
      * Get searchable custom fields keys
      *
      * @return array
@@ -854,7 +819,12 @@ class Helpers
      *
      * @return string
      */
-    public static function createQuestionMark( $id, $content = '', $template = '' )
+    public static function createQuestionMark(
+        $id,
+        $content = '',
+        $template = '',
+        $placement = 'top'
+    )
     {
         
         if ( !empty($template) ) {
@@ -870,7 +840,7 @@ class Helpers
         }
         
         $id = 'js-dgwt-wcas-tooltip-id' . sanitize_key( $id );
-        $html = '<div class="js-dgwt-wcas-tooltip dgwt-wcas-questio-mark dashicons dashicons-editor-help" data-tooltip-html-el="' . $id . '"></div>';
+        $html = '<div class="js-dgwt-wcas-tooltip dgwt-wcas-questio-mark dashicons dashicons-editor-help" data-tooltip-html-el="' . $id . '" data-tooltip-placement="' . $placement . '"></div>';
         $html .= '<div class="' . $id . '" style="display:none;"><div class="dgwt-wcas-tooltip-wrapper">' . $content . '</div></div>';
         return $html;
     }
@@ -933,14 +903,17 @@ class Helpers
             'brand'              => __( 'Brand', 'ajax-search-for-woocommerce' ),
             'post'               => __( 'Post' ),
             'page'               => __( 'Page' ),
+            'vendor'             => __( 'Vendor', 'ajax-search-for-woocommerce' ),
             'product_cat_plu'    => __( 'Categories', 'woocommerce' ),
             'product_tag_plu'    => __( 'Tags' ),
             'product_plu'        => __( 'Products', 'woocommerce' ),
             'brand_plu'          => __( 'Brands', 'ajax-search-for-woocommerce' ),
             'post_plu'           => __( 'Posts' ),
             'page_plu'           => __( 'Pages' ),
+            'vendor_plu'         => __( 'Vendors', 'ajax-search-for-woocommerce' ),
             'sku_label'          => __( 'SKU', 'woocommerce' ) . ':',
             'sale_badge'         => __( 'Sale', 'woocommerce' ),
+            'vendor_sold_by'     => __( 'Sold by:', 'ajax-search-for-woocommerce' ),
             'featured_badge'     => __( 'Featured', 'woocommerce' ),
             'in'                 => _x( 'in', 'in categories fe. in Books > Crime stories', 'ajax-search-for-woocommerce' ),
             'read_more'          => __( 'continue reading', 'ajax-search-for-woocommerce' ),

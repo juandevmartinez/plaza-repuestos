@@ -4,6 +4,7 @@ namespace DgoraWcas;
 
 use  DgoraWcas\Admin\Promo\Upgrade ;
 use  DgoraWcas\Admin\SettingsAPI ;
+use  DgoraWcas\Admin\Promo\FeedbackNotice ;
 use  DgoraWcas\Engines\TNTSearchMySQL\Indexer\Builder ;
 use  DgoraWcas\Engines\TNTSearchMySQL\Indexer\Scheduler ;
 // Exit if accessed directly
@@ -109,14 +110,18 @@ class Settings
         );
         
         if ( dgoraAsfwFs()->is_premium() ) {
+            $suffix = '';
+            if ( Builder::getInfo( 'status' ) === 'error' || Builder::isIndexerWorkingTooLong() ) {
+                $suffix = '<span class="dgwt-wcas-tab-mark">!</span>';
+            }
             $sections[30] = array(
                 'id'    => 'dgwt_wcas_performance',
-                'title' => __( 'Indexer', 'ajax-search-for-woocommerce' ),
+                'title' => __( 'Indexer', 'ajax-search-for-woocommerce' ) . $suffix,
             );
         } else {
             $sections[30] = array(
                 'id'    => 'dgwt_wcas_performance',
-                'title' => Helpers::getSettingsProLabel( __( 'Increase sales', 'ajax-search-for-woocommerce' ), 'header', __( 'by simple tricks', 'ajax-search-for-woocommerce' ) ),
+                'title' => Helpers::getSettingsProLabel( __( 'Increase sales', 'ajax-search-for-woocommerce' ), 'header', __( 'with simple tricks', 'ajax-search-for-woocommerce' ) ),
             );
         }
         
@@ -312,7 +317,7 @@ class Settings
             'label'   => __( 'Limit', 'ajax-search-for-woocommerce' ),
             'type'    => 'number',
             'size'    => 'small',
-            'desc'    => __( 'Maximum number of suggestions', 'ajax-search-for-woocommerce' ),
+            'desc'    => __( 'maximum number of suggestions', 'ajax-search-for-woocommerce' ),
             'default' => 7,
         ),
             70   => array(
@@ -368,7 +373,7 @@ class Settings
         ),
             1000 => array(
             'name'  => 'non_products_in_autocomplete_head',
-            'label' => __( 'Non-Products in autocomplete', 'ajax-search-for-woocommerce' ),
+            'label' => __( 'Non-products in autocomplete', 'ajax-search-for-woocommerce' ),
             'type'  => 'head',
             'class' => 'dgwt-wcas-sgs-header',
         ),
@@ -478,7 +483,7 @@ class Settings
             'name'    => 'search_in_product_sku',
             'label'   => __( 'Search in SKU', 'ajax-search-for-woocommerce' ),
             'type'    => 'checkbox',
-            'desc'    => ( dgoraAsfwFs()->is_premium() ? __( 'Searching also in variable products SKU', 'ajax-search-for-woocommerce' ) : sprintf( __( 'Searching in variable products SKU is available only in <a target="_blank" href="%s">the pro version</a>.', 'ajax-search-for-woocommerce' ), Upgrade::getUpgradeUrl() ) ),
+            'desc'    => ( dgoraAsfwFs()->is_premium() ? __( 'searching also in variable products SKU', 'ajax-search-for-woocommerce' ) : sprintf( __( 'Searching in variable products SKU is available only in <a target="_blank" href="%s">the pro version</a>.', 'ajax-search-for-woocommerce' ), Upgrade::getUpgradeUrl() ) ),
             'default' => 'off',
         ),
             200 => array(
@@ -511,7 +516,7 @@ class Settings
         ),
             350 => array(
             'name'    => 'exclude_out_of_stock',
-            'label'   => __( "Exclude 'out of stock' products", 'ajax-search-for-woocommerce' ),
+            'label'   => __( "Exclude “out of stock” products", 'ajax-search-for-woocommerce' ),
             'type'    => 'checkbox',
             'default' => 'off',
         ),
@@ -529,10 +534,28 @@ class Settings
         ),
             520 => array(
             'name'  => 'search_synonyms',
-            'label' => __( 'Synonyms', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark( 'synonyms', __( "Synonyms feature allows your users to find more relevant results. If your products have alternative names and users often misspelling them, consider adding synonyms.", 'ajax-search-for-woocommerce' ) ),
+            'label' => __( 'Synonyms', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark( 'synonyms', __( "The synonyms feature allows your users to find more relevant results. If your products have alternative names and users often misspell them, consider adding synonyms.", 'ajax-search-for-woocommerce' ) ),
             'type'  => 'textarea',
-            'desc'  => __( 'Synonyms should be separated by a comma. Each new synonyms group in the new line. You can use a phrase instead of a single word. <br /> <br />Sample list:<br /> <br /><span class="dgwt-wcas-synonyms-sample">sofa, couch, davenport, divan, settee<br />big, grand, great, large, outsize</span>', 'ajax-search-for-woocommerce' ),
+            'desc'  => __( 'Synonyms should be separated by a comma. Each new synonyms group is entered on a new line. You can use a phrase instead of a single word. <br /> <br />Sample list:<br /> <br /><span class="dgwt-wcas-synonyms-sample">sofa, couch, davenport, divan, settee<br />big, grand, great, large, outsize</span>', 'ajax-search-for-woocommerce' ),
             'class' => 'dgwt-wcas-settings-synonyms js-dgwt-wcas-adv-settings dgwt-wcas-premium-only',
+        ),
+            600 => array(
+            'name'  => 'filter_products_head',
+            'label' => __( 'Exclude products', 'ajax-search-for-woocommerce' ),
+            'type'  => 'head',
+            'class' => 'dgwt-wcas-sgs-header js-dgwt-wcas-adv-settings',
+        ),
+            650 => array(
+            'name'    => 'filter_products_rules',
+            'label'   => __( 'Filters', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark(
+            'filter_products_head',
+            __( 'Exclude from search all products that match conditions', 'ajax-search-for-woocommerce' ),
+            '',
+            'right'
+        ),
+            'type'    => 'filters_rules_plug',
+            'class'   => 'js-dgwt-wcas-adv-settings dgwt-wcas-premium-only',
+            'default' => array(),
         ),
         ) ),
             'dgwt_wcas_performance'  => apply_filters( 'dgwt/wcas/settings/section=performance', array(
@@ -550,13 +573,13 @@ class Settings
         ),
             100 => array(
             'name'  => 'indexer_schedule_head',
-            'label' => __( 'Scheduling Indexing', 'ajax-search-for-woocommerce' ),
+            'label' => __( 'Scheduling indexing', 'ajax-search-for-woocommerce' ),
             'type'  => 'head',
             'class' => 'dgwt-wcas-sgs-header js-dgwt-wcas-adv-settings',
         ),
             110 => array(
             'name'    => 'indexer_schedule',
-            'label'   => __( 'Enable Scheduler', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark( 'indexer-schedule', __( "I most cases you don't need to use the scheduler because The search index is updating when you edit products. If you use import tools or custom code to refresh prices or bulk add/edit products, the indexing scheduler will be helpful.", 'ajax-search-for-woocommerce' ) ),
+            'label'   => __( 'Enable Scheduler', 'ajax-search-for-woocommerce' ) . ' ' . Helpers::createQuestionMark( 'indexer-schedule', __( "In most cases, you don't need to use the scheduler because the search index updates when you edit products. If you use import tools or custom code to refresh prices or bulk add/edit products, the indexing scheduler will be helpful.", 'ajax-search-for-woocommerce' ) ),
             'type'    => 'checkbox',
             'size'    => 'small',
             'class'   => 'dgwt-wcas-options-cb-toggle js-dgwt-wcas-cbtgroup-indexer-schedule js-dgwt-wcas-adv-settings dgwt-wcas-premium-only',
@@ -568,14 +591,14 @@ class Settings
             'type'    => 'select',
             'class'   => 'js-dgwt-wcas-cbtgroup-indexer-schedule js-dgwt-wcas-adv-settings dgwt-wcas-premium-only',
             'options' => array(
-            'daily'  => __( 'Daily', 'ajax-search-for-woocommerce' ),
-            'weekly' => __( 'Weekly', 'ajax-search-for-woocommerce' ),
+            'daily'  => __( 'daily', 'ajax-search-for-woocommerce' ),
+            'weekly' => __( 'weekly', 'ajax-search-for-woocommerce' ),
         ),
             'default' => 'weekly',
         ),
             130 => array(
             'name'    => 'indexer_schedule_start_time',
-            'label'   => __( 'What time to rebuild the index?', 'ajax-search-for-woocommerce' ),
+            'label'   => __( 'Schedule time', 'ajax-search-for-woocommerce' ),
             'type'    => 'select',
             'class'   => 'js-dgwt-wcas-cbtgroup-indexer-schedule js-dgwt-wcas-adv-settings dgwt-wcas-premium-only',
             'options' => Helpers::getHours(),
@@ -584,32 +607,11 @@ class Settings
         ) ),
         );
         $fuzzinesText1 = '<strong>' . __( 'Increases sales conversions', 'ajax-search-for-woocommerce' ) . '</strong>';
-        $fuzzinesText2 = __( 'Returns suggestions based on likely relevance even though a search keyword may not exactly match. E.g if you type "ipho<b>m</b>e" you get the same results as for "iphone"', 'ajax-search-for-woocommerce' );
+        $fuzzinesText2 = __( 'returns suggestions based on likely relevance, even though a search keyword may not exactly match. E.g if you type “ipho<b>m</b>e” you get the same results as for “iphone”', 'ajax-search-for-woocommerce' );
         
         if ( dgoraAsfwFs()->is_premium() ) {
-            $settingsFields['dgwt_wcas_search'][300] = array(
-                'name'    => 'search_in_custom_fields',
-                'label'   => __( 'Search in custom fields', 'ajax-search-for-woocommerce' ),
-                'type'    => 'selectize',
-                'options' => ( Helpers::isSettingsPage() ? Helpers::getSearchableCustomFields() : array() ),
-                'desc'    => __( 'Select the custom fields you want to add to the search scope', 'ajax-search-for-woocommerce' ),
-            );
-            $settingsFields['dgwt_wcas_search'][450] = array(
-                'name'    => 'fuzziness_enabled',
-                'label'   => __( 'Fuzzy matching', 'ajax-search-for-woocommerce' ),
-                'desc'    => $fuzzinesText2,
-                'class'   => 'dgwt-wcas-premium-only',
-                'type'    => 'select',
-                'options' => array(
-                'off'    => __( '-- Disabled', 'ajax-search-for-woocommerce' ),
-                'soft'   => __( 'Soft', 'ajax-search-for-woocommerce' ),
-                'normal' => __( 'Normal', 'ajax-search-for-woocommerce' ),
-                'hard'   => __( 'Hard', 'ajax-search-for-woocommerce' ),
-            ),
-                'default' => 'normal',
-            );
-            unset( $settingsFields['dgwt_wcas_performance'][0] );
         } else {
+            // Fuzzy search feature preview
             $settingsFields['dgwt_wcas_search'][450] = array(
                 'name'    => 'fuzziness_enabled_demo',
                 'label'   => __( 'Fuzzy matching', 'ajax-search-for-woocommerce' ),
@@ -624,25 +626,37 @@ class Settings
             ),
                 'default' => 'off',
             );
-        }
-        
-        
-        if ( dgoraAsfwFs()->is_premium() ) {
-            $settingsFields['dgwt_wcas_performance'][11] = array(
-                'name'  => 'search_engine_build',
-                'label' => __( 'Index status', 'ajax-search-for-woocommerce' ),
-                'type'  => 'desc',
-                'desc'  => ( Helpers::isSettingsPage() ? Builder::renderIndexingStatus() : '' ),
-                'class' => 'dgwt-wcas-premium-only wcas-opt-tntsearch',
-            );
-            $settingsFields['dgwt_wcas_performance'][110]['desc'] = Scheduler::nextTaskDescription();
-        } else {
+            // Indexer feature preview
             $settingsFields['dgwt_wcas_performance'][11] = array(
                 'name'  => 'search_engine_build',
                 'label' => __( 'Index status', 'ajax-search-for-woocommerce' ),
                 'type'  => 'desc',
                 'desc'  => Helpers::indexerDemoHtml(),
                 'class' => 'dgwt-wcas-premium-only wcas-opt-tntsearch',
+            );
+        }
+        
+        // Show info about rebranding
+        // Show info for all users with install date < Fri Mar 12 2021 22:59:00 GMT+0000
+        // @TODO Remove it in March 2022
+        $installDate = get_option( FeedbackNotice::ACTIVATION_DATE_OPT );
+        
+        if ( !empty($installDate) && is_numeric( $installDate ) && $installDate < 1615589940 ) {
+            $settingsFields['dgwt_wcas_basic'][5] = array(
+                'name'  => 'rebranding_head',
+                'label' => __( 'News', 'ajax-search-for-woocommerce' ),
+                'type'  => 'head',
+                'class' => 'dgwt-wcas-sgs-header',
+            );
+            $desc = __( 'AJAX Search for WooCommerce rebrands to FiboSearch', 'ajax-search-for-woocommerce' ) . '. ';
+            $desc .= '<a href="https://fibosearch.com/ajax-search-for-woocommerce-rebrands-to-fibosearch/" target="_blank">';
+            $desc .= __( 'Read more', 'ajax-search-for-woocommerce' ) . '.';
+            $desc .= '</a>';
+            $settingsFields['dgwt_wcas_basic'][6] = array(
+                'name'  => 'rebranding_desc',
+                'label' => __( 'New plugin name', 'ajax-search-for-woocommerce' ),
+                'type'  => 'desc',
+                'desc'  => $desc,
             );
         }
         
@@ -710,7 +724,7 @@ class Settings
         
         }
         
-        if ( empty($value) && !empty($default) ) {
+        if ( $value === '' && !empty($default) ) {
             $value = $default;
         }
         $value = apply_filters( 'dgwt/wcas/settings/load_value', $value, $option_key );
@@ -815,6 +829,9 @@ class Settings
      */
     public function toggleAdvancedSettings()
     {
+        if ( !current_user_can( 'administrator' ) ) {
+            wp_die( -1, 403 );
+        }
         $show = ( !empty($_GET['adv_settings_value']) && $_GET['adv_settings_value'] === 'show' ? 'on' : 'off' );
         update_option( 'dgwt_wcas_settings_show_advanced', $show );
         wp_send_json_success();

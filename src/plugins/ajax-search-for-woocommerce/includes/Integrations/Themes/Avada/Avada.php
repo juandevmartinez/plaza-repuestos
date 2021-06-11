@@ -57,7 +57,7 @@ class Avada {
 		$settings[ $key ][55] = array(
 			'name'    => $this->themeSlug . '_replace_search',
 			'label'   => __( 'Replace', 'ajax-search-for-woocommerce' ),
-			'desc'    => sprintf( __( 'Replace all %s search bars with the Ajax Search for WooCommerce.', 'ajax-search-for-woocommerce' ), $this->themeName ),
+			'desc'    => sprintf( __( 'Replace all %s search bars with the %s.', 'ajax-search-for-woocommerce' ), $this->themeName, DGWT_WCAS_NAME ),
 			'type'    => 'checkbox',
 			'default' => 'off',
 		);
@@ -73,8 +73,7 @@ class Avada {
 	}
 
 	/**
-	 * Check if can replace the native Woodmart search form
-	 * by the Ajax Search for WooCommerce form.
+	 * Check if can replace the native Woodmart search form with the FiboSearch form.
 	 *
 	 * @return bool
 	 */
@@ -109,6 +108,20 @@ class Avada {
 				add_filter( 'wp_nav_menu_items', array( $this, 'addSearchToMainNav' ), 20, 2 );
 			} );
 
+			// Fusion search
+			add_filter( 'search_form_after_fields', function ( $args ) {
+
+				add_action( 'wp_footer', function () {
+					echo '<div class="dgwt-wcas-avada-fus-search-replace-wrapper">';
+					echo do_shortcode( '[wcas-search-form]' );
+					echo '</div>';
+				} );
+
+
+				$args['after_fields'] = '<div class="dgwt-wcas-avada-fus-search-replace"></div>';
+
+				return $args;
+			} );
 
 		}
 	}
@@ -175,14 +188,20 @@ class Avada {
 					font-size: 15px;
 					line-height: 40px;
 				}
+
 				.fusion-header-v4 .fusion-main-menu {
 					overflow: visible;
+				}
+
+				.fusion-search-form {
+					display: none;
 				}
 
 				html:not(.dgwt-wcas-overlay-mobile-on) .fusion-header-v4 .fusion-main-menu .dgwt-wcas-search-wrapp.dgwt-wcas-layout-icon .dgwt-wcas-search-form {
 					top: 100%;
 				}
-				.fusion-header-v4 .fusion-main-menu .dgwt-wcas-layout-icon-open  .dgwt-wcas-search-icon-arrow {
+
+				.fusion-header-v4 .fusion-main-menu .dgwt-wcas-layout-icon-open .dgwt-wcas-search-icon-arrow {
 					top: calc(100% + -4px);
 				}
 
@@ -270,6 +289,28 @@ class Avada {
 							});
 						}
 
+						// Fusion search
+						var $fusionSearchForm = $('.fusion-search-form');
+						if ($fusionSearchForm.length) {
+							$(this).remove();
+						}
+
+						var $placeholders = $('.dgwt-wcas-avada-fus-search-replace')
+						var $barsToReplace = $('.dgwt-wcas-avada-fus-search-replace-wrapper .dgwt-wcas-search-wrapp')
+						if ($placeholders.length && $barsToReplace.length) {
+							$placeholders.each(function (i) {
+								var $parentForm = $(this).closest('form');
+								$parentForm.after($(this));
+								$parentForm.remove();
+							});
+
+							$placeholders.each(function (i) {
+								$(this).append($($barsToReplace[i]));
+							});
+						}
+
+						// Remove unused search forms
+						$('.dgwt-wcas-avada-fus-search-replace-wrapper').remove();
 
 						$(document).on('click', '.fusion-icon-search', function () {
 
