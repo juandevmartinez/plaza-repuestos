@@ -9,7 +9,8 @@ function shops_slider_connection(){
             <?php if( !empty( $vendors ) ):?>
                 <?php foreach( $vendors as $index => $array ):?>
                     <div class="vendors-slider grid-container hide" data-slide-vendors="<?php echo ($index + 1); ?>">
-                        <?php foreach( $array as $user ):
+                        <?php $vendorsArray = array_slice($array, 0, 5);?>
+                        <?php foreach( $vendorsArray as $user ):
                             $vendor = get_wcmp_vendor( $user );
                             $image = $vendor->get_image() ? $vendor->get_image('image', array(300, 300)) : $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
                             $address = $vendor->get_formatted_address() ? substr( $vendor->get_formatted_address(), 0, 25) : '';

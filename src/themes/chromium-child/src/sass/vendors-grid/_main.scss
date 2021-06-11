@@ -60,6 +60,9 @@ body #wcmp-store-conatiner {
     }
 
     .wcmp-main-section{
+        max-width: 1200px;
+        margin: 0 auto;
+        
         .wcmp-middle-sec{
             min-width: 75%
         }
@@ -90,7 +93,7 @@ body #wcmp-store-conatiner {
             flex-direction: row !important;
 
             .woocommerce-products-header {
-                padding: 0 114px !important;
+                max-width: 1200px;
                 width: 100%;
             }
 
@@ -112,20 +115,7 @@ body #wcmp-store-conatiner {
             #main {
                 width: 100% !important;
             }
-
-            @media(min-width: 1700px){
-                .woocommerce-products-header {
-                    width: 100%;
-                }
-
-                .wcmp-main-section .products.columns-3 {
-                    grid-template-columns: repeat(5, 1fr);
-                }
-            }
-
-            .wcmp-main-section{
-                padding: 0 100px;
-            }
+            
         }
     }
 
