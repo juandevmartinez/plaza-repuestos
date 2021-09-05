@@ -39,7 +39,7 @@ function get_approved_date( $user_id ){
     $date_string = get_user_meta( $user_id, 'approved_date', true );
     //Exit the function if empty
     if ( empty($date_string) )
-        return;
+        return null;
 
     $date = date( "d-m-Y", strtotime($date_string) );
     return $date;
@@ -53,12 +53,16 @@ function get_approved_date( $user_id ){
 function get_payment_date( $user_id ){
     $approved_date = get_approved_date( $user_id );
     $time = get_user_meta( $user_id, 'payment_date_period', true);
+    $payment_date = date("d-m-Y", strtotime( $time, strtotime($approved_date) )); 
 
     //Exit the function if empty
     if( empty($approved_date) )
-        return;
+        return null;
+    
+    if( is_admin() && $payment_date < $approved_date && $GLOBALS['pagenow'] === 'admin.php' ){
+        return 'inactiva';
+    }
 
-    $payment_date = date("d-m-Y", strtotime( $time, strtotime($approved_date) )); 
     return $payment_date;
 }
 
@@ -71,22 +75,30 @@ function update_payment_date_by_subscription( $order_id ){
     // get order object and items
     $order = wc_get_order( $order_id );
     $items = $order->get_items();
+    $userID = $order->get_user_id();
+    
 
     // Products to check in order 
-    $products_to_check = array( '4058', '4060' );
+    $products_to_check = array( 4058, 4060 );
 
     foreach ( $items as $item ) {
-        if ( $order->user_id > 0 && in_array( $item['product_id'], $products_to_check ) ) {
-            $user = new WP_User( $order->user_id );
+        $productID = $item->get_product_id();
+        if ( $userID > 0 && in_array( $productID, $products_to_check ) ) {
+            $user = new WP_User( $userID );
 
+            $user_status = get_current_status( $user->ID );
+            if( $user_status == 'expired' ){
+                register_approved_date( $user->ID );
+            }
             // Set Role and remove old one
             $user->set_role( 'dc_vendor' );
             update_user_meta( $user->ID, 'payment_date_period', get_post_meta( $item['product_id'], 'rent_period', true ));
-           if( get_user_meta( $user->ID, '_vendor_turn_off', true ) ){
-               delete_user_meta( $user->ID, 'vendor_turn_off');
-           }
-             
+            if( get_user_meta( $user->ID, '_vendor_turn_off', true ) ){
+                delete_user_meta( $user->ID, 'vendor_turn_off');
+            }
+            return true; 
         }
     }
+    return false;
 }
 add_action( 'woocommerce_order_status_completed', 'update_payment_date_by_subscription' );

@@ -21,7 +21,8 @@
     wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( $parent_style ), wp_get_theme()->get('Version'));
 
     //Custom css
-    wp_enqueue_style( 'custom-styles', get_stylesheet_directory_uri() . '/dist/css/style.css') ;
+    wp_enqueue_style( 'custom-styles', get_stylesheet_directory_uri() . '/dist/css/style.css');
+    wp_enqueue_style( 'pricing', get_stylesheet_directory_uri() . '/dist/css/pricing.css');
     //Custom JS
     wp_enqueue_script( 'global-custom', get_stylesheet_directory_uri() . '/dist/js/global.js', array('jquery') );
 
